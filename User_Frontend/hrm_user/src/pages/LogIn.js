@@ -16,7 +16,7 @@ const LogIn = () => {
       <div className="h-[80px] bg-white flex flex-row w-full items-center justify-center">
         <img src={logo} className="h-[70px]" alt="Logo" />
       </div>
-      <div className="flex flex-grow items-center justify-center bg-white rounded-lg my-[6%] md:max-h-[calc(100vh - 160px)] md:w-[415px]">
+      <div className="flex flex-grow items-center justify-center bg-white rounded-[33px] my-[6%] md:max-h-[calc(100vh - 160px)] md:w-[415px]">
         <div className="flex flex-col items-center justify-center md:w-full py-[5%]">
           <img src={lock} className="h-[40px]" alt="lock" />
           <div className="mt-2">
