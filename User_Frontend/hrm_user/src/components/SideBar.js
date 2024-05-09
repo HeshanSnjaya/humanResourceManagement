@@ -27,13 +27,9 @@ const Sidebar = ({ activetab, onTabChange }) => {
         <ul className="space-y-2 font-medium">
           {/* List items go here */}
           {Tabs.map((tab, index) => (
-            <li
-              key={index}
-              className={activetab === tab ? "active" : ""}
-              onClick={() => onTabChange(tab)}
-            >
+            <li key={index} className={activetab === tab ? "active" : ""}>
               <Link
-                to="/dashboard"
+                to={`/${tab.toLowerCase()}`}
                 className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
               >
                 <svg
