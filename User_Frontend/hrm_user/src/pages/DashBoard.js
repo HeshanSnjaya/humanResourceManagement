@@ -9,9 +9,10 @@ const DashBoard = () => {
     setActiveScreen(tab);
   };
   return (
-    <div>
-      <Sidebar activetab={activeScreen} onTabChange={handleTabChange} />
-      <Content activetab={activeScreen} />
+    <div className="bg-red-500 h-[100px] w-[400px] ml-[300px]">
+      <p>hellow</p>
+      {/* <Sidebar activetab={activeScreen} onTabChange={handleTabChange} /> */}
+      {/* <Content activetab={activeScreen} /> */}
     </div>
   );
 };

@@ -9,7 +9,7 @@ import Dash from "./components/Dash";
 function App() {
   return (
     <BrowserRouter>
-      {/* <Sidebar /> */}
+      <Sidebar />
       <Routes>
         <Route path={"/"}>
           <Route index element={<LogIn />} />
