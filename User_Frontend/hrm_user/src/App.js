@@ -4,19 +4,61 @@ import LogIn from "./pages/LogIn";
 import DashBoard from "./pages/DashBoard";
 import Employee from "./pages/Employee";
 import Sidebar from "./components/SideBar";
-import Dash from "./components/Dash";
+import PayRole from "./pages/PayRole";
+import Attendence from "./pages/Attendence";
+import Leaves from "./pages/Leaves";
 
 function App() {
   return (
     <BrowserRouter>
-      <Sidebar />
       <Routes>
-        <Route path={"/"}>
-          <Route index element={<LogIn />} />
-          <Route element={<DashBoard />} path="dashboard" />
-          <Route element={<Dash />} path="dash" />
-          <Route element={<Employee />} path="employee" />
-        </Route>
+        <Route path="/" element={<LogIn />} />
+        <Route
+          path="/dashboard"
+          element={
+            <>
+              <Sidebar />
+              <DashBoard />
+            </>
+          }
+        />
+        <Route
+          path="/employee"
+          element={
+            <>
+              <Sidebar />
+              <Employee />
+            </>
+          }
+        />
+        <Route
+          path="/leaves"
+          element={
+            <>
+              <Sidebar />
+              <Leaves />
+            </>
+          }
+        />
+
+        <Route
+          path="/payrole"
+          element={
+            <>
+              <Sidebar />
+              <PayRole />
+            </>
+          }
+        />
+        <Route
+          path="/attendance"
+          element={
+            <>
+              <Sidebar />
+              <Attendence />
+            </>
+          }
+        />
       </Routes>
     </BrowserRouter>
   );

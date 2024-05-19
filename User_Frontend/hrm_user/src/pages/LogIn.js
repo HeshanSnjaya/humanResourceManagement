@@ -5,13 +5,6 @@ import TextBox from "../components/TextBox";
 
 const LogIn = () => {
   return (
-    // <div className="flex flex-col items-center bg-[#497cc9] md:min-h-[100vh]">
-    //   <div className="md:h-[80px] bg-white flex flex-row w-full items-center justify-center">
-    //     <img src={logo} className="md:h-[70px]" />
-    //   </div>
-    //   <div className="md:h-[442px] md:w-[415px] bg-white rounded-lg md:my-[%]"></div>
-    //   <div className="bg-white w-full md:h-[50px]"></div>
-    // </div>
     <div className="flex flex-col items-center min-h-screen bg-[#497cc9]">
       <div className="h-[80px] bg-white flex flex-row w-full items-center justify-center">
         <img src={logo} className="h-[70px]" alt="Logo" />
