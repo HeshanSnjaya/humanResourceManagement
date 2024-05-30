@@ -1,20 +1,20 @@
-package com.hrm.human.resource.management.system.entity;
+package com.hrm.human.resource.management.system.auth;
 
-import jakarta.persistence.*;
+import com.hrm.human.resource.management.system.entity.Role;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
 
-@Entity
 @Data
-@NoArgsConstructor
+@Builder
 @AllArgsConstructor
-@Table(name = "employee")
-public class Employee {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+@NoArgsConstructor
+public class RegisterRequest {
     private Long employeeId;
     private String firstName;
     private String lastName;
@@ -34,4 +34,6 @@ public class Employee {
     private Integer age;
     private String employmentType;
     private Date joinedDate;
+    private Role role;
+
 }
