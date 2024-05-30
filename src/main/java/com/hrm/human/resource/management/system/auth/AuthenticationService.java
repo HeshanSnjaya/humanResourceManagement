@@ -24,7 +24,7 @@ public class AuthenticationService {
     private final AuthenticationManager authenticationManager;
 
     public AuthenticationResponse register(RegisterRequest request) {
-        Optional<User> existingUserOptional = repository.findByEmail(request.getWorkEmail());
+        Optional<User> existingUserOptional = repository.findByWorkEmail(request.getWorkEmail());
         if (existingUserOptional.isPresent()) {
             /*User existingUser = existingUserOptional.get();*/
             throw new EmailAlreadyExistException("Email Already Exists");
@@ -65,12 +65,12 @@ public class AuthenticationService {
         try {
             authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
-                            request.getEmail(),
+                            request.getWorkEmail(),
                             request.getPassword()
                     )
             );
 
-            var user = repository.findByEmail(request.getEmail())
+            var user = repository.findByWorkEmail(request.getWorkEmail())
                     .orElseThrow();
 
             var jwtToken = jwtService.generateToken(user);
