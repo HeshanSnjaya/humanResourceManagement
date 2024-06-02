@@ -12,7 +12,7 @@ const DashBoard = () => {
           <div className="bg-white flex rounded-xl w-[15rem] h-[10rem]"></div>
           <div className="bg-white flex rounded-xl w-[15rem] h-[10rem]"></div>
         </div>
-        <div className="flex bg-white pl-10 pt-5 md:w-[177vh] md:h-[50vh] mt-10 rounded-xl"></div>
+        <div className="flex bg-white pl-10 pt-5 md:w-[96.4%]  md:h-[50vh] mt-10 rounded-xl"></div>
       </div>
     </div>
   );
