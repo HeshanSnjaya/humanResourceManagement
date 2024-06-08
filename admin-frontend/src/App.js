@@ -1,24 +1,106 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import Sidebar from "../src/components/SideBar.js";
+import LogIn from "./pages/LogIn";
+import DashBoard from "./pages/DashBoard.js";
+import Employees from "./pages/Employees.js";
+import AddNewemployee from "./pages/AddNewemployee.js";
+import Departments from "./pages/Departments.js";
+import Positions from "./pages/Positions.js";
+import Attendences from "./pages/Attendences.js";
+import Announcements from "./pages/Announcements.js";
+import PayRole from "./pages/PayRole.js";
+import Leaves from "./pages/Leaves.js";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<LogIn />} />
+        <Route
+          path="/admin/dashboard"
+          element={
+            <>
+              <Sidebar />
+              <DashBoard />
+            </>
+          }
+        />
+        <Route
+          path="/admin/employees"
+          element={
+            <>
+              <Sidebar />
+              <Employees />
+            </>
+          }
+        />
+        <Route
+          path="/admin/employees/add"
+          element={
+            <>
+              <Sidebar />
+              <AddNewemployee />
+            </>
+          }
+        />
+
+        <Route
+          path="/admin/departments"
+          element={
+            <>
+              <Sidebar />
+              <Departments />
+            </>
+          }
+        />
+        <Route
+          path="/admin/positions"
+          element={
+            <>
+              <Sidebar />
+              <Positions />
+            </>
+          }
+        />
+        <Route
+          path="/admin/attendances"
+          element={
+            <>
+              <Sidebar />
+              <Attendences />
+            </>
+          }
+        />
+        <Route
+          path="/admin/announcements"
+          element={
+            <>
+              <Sidebar />
+              <Announcements />
+            </>
+          }
+        />
+        <Route
+          path="/admin/payroles"
+          element={
+            <>
+              <Sidebar />
+              <PayRole />
+            </>
+          }
+        />
+        <Route
+          path="/admin/leaves"
+          element={
+            <>
+              <Sidebar />
+              <Leaves />
+            </>
+          }
+        />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
