@@ -1,7 +1,28 @@
 import React, { useState } from "react";
 import Welcome from "../components/Welcome";
+import PositionForm from "../components/positions/PositionForm";
+import UpdatePosition from "../components/positions/UpdatePosition";
 
 const Positions = () => {
+  const [posAdd, setPosAdd] = useState(false);
+  const [posUpdate, setPosUpdate] = useState(false);
+
+  const handleAddClick = () => {
+    setPosAdd(true);
+  };
+
+  const handleAddCloseClick = () => {
+    setPosAdd(false);
+  };
+
+  const handleUpdateClick = () => {
+    setPosUpdate(true);
+  };
+
+  const handleUpdateCloseClick = () => {
+    setPosUpdate(false);
+  };
+
   const [positions, setPositions] = useState([
     {
       Name: "Hr Manager",
@@ -21,7 +42,10 @@ const Positions = () => {
       <div className="flex flex-col pl-10 pt-5">
         <Welcome name="Welcome Lakmini" tab="Positions" />
         <div className="flex flex-row md:w-[96.4%] mt-[25px] justify-end">
-          <div className="bg-[#013a63] p-3 rounded-lg text-white font-medium">
+          <div
+            className="bg-[#013a63] p-3 rounded-lg text-white font-medium"
+            onClick={handleAddClick}
+          >
             Add New Position
           </div>
         </div>
@@ -58,7 +82,10 @@ const Positions = () => {
                       <td className="px-6 py-4">{pos.Description}</td>
 
                       <td className="px-6 py-4">
-                        <div className="bg-[#0c8ce9] flex justify-center py-[5px] rounded-md">
+                        <div
+                          className="bg-[#0c8ce9] flex justify-center py-[5px] rounded-md"
+                          onClick={handleUpdateClick}
+                        >
                           Update
                         </div>
                       </td>
@@ -72,6 +99,10 @@ const Positions = () => {
                 })}
               </tbody>
             </table>
+            {posAdd && <PositionForm closeModal={handleAddCloseClick} />}
+            {posUpdate && (
+              <UpdatePosition closeModal={handleUpdateCloseClick} />
+            )}
           </div>
         </div>
       </div>

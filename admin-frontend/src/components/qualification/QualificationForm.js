@@ -1,6 +1,6 @@
 import React from "react";
 
-const LeaveForm = ({ closeModal }) => {
+const QualificationForm = ({ closeModal }) => {
   return (
     <div
       id="leave-form"
@@ -13,7 +13,7 @@ const LeaveForm = ({ closeModal }) => {
           {/* Modal header */}
           <div className="flex items-center justify-between p-4 md:p-5 border-b rounded-t border-gray-600">
             <h3 className="text-lg font-semibold text-gray-900 ">
-              Apply Leave
+              Add Qualification
             </h3>
             <button
               type="button"
@@ -43,51 +43,17 @@ const LeaveForm = ({ closeModal }) => {
             <div className="grid gap-4 mb-4 grid-cols-2">
               <div className="col-span-2 sm:col-span-1">
                 <label
-                  htmlFor="category"
-                  className="block mb-2 text-sm font-medium text-gray-900 "
-                >
-                  Leave Type
-                </label>
-                <select
-                  id="category"
-                  className="bg-gray-50 border text-gray-900 text-sm rounded-lg block w-full p-2.5  border-gray-500 placeholder-gray-400 focus:ring-primary-500 focus:border-primary-500"
-                >
-                  <option selected="">Select Leave Type</option>
-                  <option value="TV">Annual Leave</option>
-                  <option value="PC">Casual Leave</option>
-                  <option value="GA">Sick Leave</option>
-                </select>
-              </div>
-              <div className="col-span-2 sm:col-span-1">
-                <label
-                  htmlFor="price"
-                  className="block mb-2 text-sm font-medium text-gray-900 "
-                >
-                  No of days
-                </label>
-                <input
-                  type="number"
-                  name="price"
-                  id="price"
-                  className="bg-gray-50 border text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 border-gray-500 placeholder-gray-400"
-                  placeholder="1"
-                  required=""
-                />
-              </div>
-
-              <div className="col-span-2 sm:col-span-1">
-                <label
                   htmlFor="price"
                   className="block mb-2 text-sm font-medium text-gray-900"
                 >
-                  From
+                  Course Name
                 </label>
                 <input
                   type="text"
                   name="price"
                   id="price"
                   className="bg-gray-50 border text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 border-gray-500 placeholder-gray-400"
-                  placeholder="2024-06-01"
+                  placeholder="Hr department"
                   required=""
                 />
               </div>
@@ -96,31 +62,48 @@ const LeaveForm = ({ closeModal }) => {
                   htmlFor="price"
                   className="block mb-2 text-sm font-medium text-gray-900"
                 >
-                  To
+                  Institute Name
                 </label>
                 <input
                   type="text"
                   name="price"
                   id="price"
                   className="bg-gray-50 border text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 border-gray-500 placeholder-gray-400"
-                  placeholder="2024-06-02"
+                  placeholder="Mr. Amalraj"
                   required=""
                 />
               </div>
-
-              <div className="col-span-2">
+              <div className="col-span-2 sm:col-span-1">
                 <label
-                  htmlFor="description"
-                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                  htmlFor="price"
+                  className="block mb-2 text-sm font-medium text-gray-900"
                 >
-                  Reason
+                  Marks
                 </label>
-                <textarea
-                  id="description"
-                  rows="4"
+                <input
+                  type="text"
+                  name="price"
+                  id="price"
                   className="bg-gray-50 border text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 border-gray-500 placeholder-gray-400"
-                  placeholder="Write your leave reason"
-                ></textarea>
+                  placeholder="Hr department"
+                  required=""
+                />
+              </div>
+              <div className="col-span-2 sm:col-span-1">
+                <label
+                  htmlFor="price"
+                  className="block mb-2 text-sm font-medium text-gray-900"
+                >
+                  Completion Year
+                </label>
+                <input
+                  type="text"
+                  name="price"
+                  id="price"
+                  className="bg-gray-50 border text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 border-gray-500 placeholder-gray-400"
+                  placeholder="Mr. Amalraj"
+                  required=""
+                />
               </div>
             </div>
             <div className="col-span-2 flex justify-center">
@@ -138,4 +121,4 @@ const LeaveForm = ({ closeModal }) => {
   );
 };
 
-export default LeaveForm;
+export default QualificationForm;

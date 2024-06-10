@@ -1,7 +1,28 @@
 import React, { useState } from "react";
 import Welcome from "../components/Welcome";
+import DepartmentForm from "../components/deparments/DepartmentForm";
+import UpdateDepartmentForm from "../components/deparments/UpdateDepartmentForm";
 
 const Departments = () => {
+  const [deptAdd, setDeptAdd] = useState(false);
+  const [deptUpdate, setDeptUpdate] = useState(false);
+
+  const handleAddClick = () => {
+    setDeptAdd(true);
+  };
+
+  const handleAddCloseClick = () => {
+    setDeptAdd(false);
+  };
+
+  const handleUpdateClick = () => {
+    setDeptUpdate(true);
+  };
+
+  const handleUpdateCloseClick = () => {
+    setDeptUpdate(false);
+  };
+
   const [departments, setDepartments] = useState([
     {
       Name: "Hr deparment",
@@ -27,7 +48,10 @@ const Departments = () => {
       <div className="flex flex-col pl-10 pt-5">
         <Welcome name="Welcome Lakmini" tab="Departments" />
         <div className="flex flex-row md:w-[96.4%] mt-[25px] justify-end">
-          <div className="bg-[#013a63] p-3 rounded-lg text-white font-medium">
+          <div
+            className="bg-[#013a63] p-3 rounded-lg text-white font-medium"
+            onClick={handleAddClick}
+          >
             Add New Department
           </div>
         </div>
@@ -71,7 +95,10 @@ const Departments = () => {
                       <td className="px-6 py-4">{dept.headName}</td>
                       <td className="px-6 py-4">{dept.headEmail}</td>
                       <td className="px-6 py-4">
-                        <div className="bg-[#0c8ce9] flex justify-center py-[5px] rounded-md">
+                        <div
+                          className="bg-[#0c8ce9] flex justify-center py-[5px] rounded-md"
+                          onClick={handleUpdateClick}
+                        >
                           Update
                         </div>
                       </td>
@@ -85,6 +112,10 @@ const Departments = () => {
                 })}
               </tbody>
             </table>
+            {deptAdd && <DepartmentForm closeModal={handleAddCloseClick} />}
+            {deptUpdate && (
+              <UpdateDepartmentForm closeModal={handleUpdateCloseClick} />
+            )}
           </div>
         </div>
       </div>

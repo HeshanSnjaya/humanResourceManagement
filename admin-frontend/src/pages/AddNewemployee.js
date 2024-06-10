@@ -1,8 +1,29 @@
 import React, { useState } from "react";
 import Welcome from "../components/Welcome";
 import TextBox from "../components/TextBox";
+import QualificationForm from "../components/qualification/QualificationForm";
+import ExpereinceForm from "../components/experience/ExpereinceForm";
 
 const AddNewemployee = () => {
+  const [quliAdd, setquliAdd] = useState(false);
+  const [expAdd, setExpAdd] = useState(false);
+
+  const handleQualiClick = () => {
+    setquliAdd(true);
+  };
+
+  const handleQualiCloseClick = () => {
+    setquliAdd(false);
+  };
+
+  const handleEXPClick = () => {
+    setExpAdd(true);
+  };
+
+  const handleeXPCloseClick = () => {
+    setExpAdd(false);
+  };
+
   const [employee, setemployee] = useState({
     firstName: "Lakmini",
     LastName: "Theekshana",
@@ -271,7 +292,10 @@ const AddNewemployee = () => {
             </div>
           </div>
           <div className="grid col-span-2 md:w-[96.4%] mt-[25px] justify-end mb-5">
-            <div className="bg-[#013a63] p-2 rounded-lg text-white font-medium">
+            <div
+              className="bg-[#013a63] p-2 rounded-lg text-white font-medium"
+              onClick={handleQualiClick}
+            >
               Add Qualification
             </div>
           </div>
@@ -326,6 +350,9 @@ const AddNewemployee = () => {
                 })}
               </tbody> */}
             </table>
+            {quliAdd && (
+              <QualificationForm closeModal={handleQualiCloseClick} />
+            )}
           </div>
         </div>
         {/* Experience */}
@@ -338,7 +365,10 @@ const AddNewemployee = () => {
             </div>
           </div>
           <div className="grid col-span-2 md:w-[96.4%] mt-[25px] justify-end mb-5">
-            <div className="bg-[#013a63] p-2 rounded-lg text-white font-medium">
+            <div
+              className="bg-[#013a63] p-2 rounded-lg text-white font-medium"
+              onClick={handleEXPClick}
+            >
               Add Experience
             </div>
           </div>
@@ -393,6 +423,7 @@ const AddNewemployee = () => {
                 })}
               </tbody> */}
             </table>
+            {expAdd && <ExpereinceForm closeModal={handleeXPCloseClick} />}
           </div>
         </div>
       </div>
