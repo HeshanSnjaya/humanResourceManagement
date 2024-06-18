@@ -1,22 +1,13 @@
-package com.hrm.human.resource.management.system.auth;
+package com.hrm.human.resource.management.system.dto;
 
 import com.hrm.human.resource.management.system.entity.Role;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 import java.util.Date;
 
 @Data
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
-public class RegisterRequest {
-    private Long employeeId;
+public class UserUpdateRequestDTO {
     private String firstName;
     private String lastName;
     private String motherName;
@@ -34,7 +25,6 @@ public class RegisterRequest {
     private String password;
     private String employmentType;
     private Date joinedDate;
-    private Role role;
     private Float basicSalary;
-
+    private Role role;
 }

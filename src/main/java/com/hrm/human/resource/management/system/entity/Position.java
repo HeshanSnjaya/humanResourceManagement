@@ -15,6 +15,5 @@ public class Position {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long positionId;
     private String positionName;
-    private Float salary;
     private String positionDesc;
 }

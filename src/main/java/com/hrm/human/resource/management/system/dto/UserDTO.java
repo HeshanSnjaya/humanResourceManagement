@@ -1,5 +1,6 @@
 package com.hrm.human.resource.management.system.dto;
 
+import java.time.LocalDate;
 import java.util.Date;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -24,9 +25,10 @@ public class UserDTO {
     private String gender;
     private String epfNo;
     private String address;
-    private Date dob;
+    private LocalDate dob;
     private String workEmail;
     private Integer age;
     private String employmentType;
     private Date joinedDate;
+    private Float basicSalary;
 }

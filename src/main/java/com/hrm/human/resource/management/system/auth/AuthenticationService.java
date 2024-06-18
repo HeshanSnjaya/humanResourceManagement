@@ -12,6 +12,8 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.Period;
 import java.util.Optional;
 
 @Service
@@ -30,6 +32,7 @@ public class AuthenticationService {
             throw new EmailAlreadyExistException("Email Already Exists");
         }
         else{
+            int age = calculateAge(request.getDob());
             var user= User.builder()
                     .firstName(request.getFirstName())
                     .lastName(request.getLastName())
@@ -46,10 +49,11 @@ public class AuthenticationService {
                     .dob(request.getDob())
                     .workEmail(request.getWorkEmail())
                     .password(passwordEncoder.encode(request.getPassword()))
-                    .age(request.getAge())
+                    .age(age)
                     .employmentType(request.getEmploymentType())
                     .joinedDate(request.getJoinedDate())
                     .role(request.getRole())
+                    .basicSalary(request.getBasicSalary())
                     .build();
             repository.save(user);
             var jwtToken = jwtService.generateToken(user);
@@ -81,5 +85,9 @@ public class AuthenticationService {
         } catch (AuthenticationException ex) {
             throw new EmailOrPasswordIncorrectException("Email or Password is incorrect");
         }
+    }
+
+    private int calculateAge(LocalDate dob) {
+        return Period.between(dob, LocalDate.now()).getYears();
     }
 }

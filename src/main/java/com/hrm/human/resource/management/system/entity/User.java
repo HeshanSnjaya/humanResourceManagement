@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.time.LocalDate;
 import java.util.Collection;
 import java.util.Date;
 
@@ -33,12 +34,14 @@ public class User implements UserDetails {
     private String gender;
     private String epfNo;
     private String address;
-    private Date dob;
+    private LocalDate dob;
     private String workEmail;
     private String password;
     private Integer age;
     private String employmentType;
     private Date joinedDate;
+    private Float basicSalary;
+
 
     @Enumerated(EnumType.STRING)
     private Role role;
