@@ -3,6 +3,7 @@ package com.hrm.human.resource.management.system.controller;
 
 import com.hrm.human.resource.management.system.dto.UserDTO;
 import com.hrm.human.resource.management.system.dto.UserUpdateRequestDTO;
+import com.hrm.human.resource.management.system.entity.ResponseMessage;
 import com.hrm.human.resource.management.system.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,18 +40,12 @@ public class UserController {
     }
 
     @PutMapping("/{employeeId}")
-    public ResponseEntity<UserDTO> updateUser(@PathVariable Long employeeId, @RequestBody UserUpdateRequestDTO request) {
-        Optional<UserDTO> updatedUserOptional = userService.updateUser(employeeId, request);
-        if (updatedUserOptional.isPresent()) {
-            return ResponseEntity.ok(updatedUserOptional.get());
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+    public ResponseEntity<ResponseMessage> updateUser(@PathVariable Long employeeId, @RequestBody UserUpdateRequestDTO request) {
+        return ResponseEntity.ok(userService.updateUser(employeeId, request));
     }
 
     @DeleteMapping("/{employeeId}")
-    public ResponseEntity<Void> deleteUser(@PathVariable Long employeeId) {
-        userService.deleteUserById(employeeId);
-        return ResponseEntity.noContent().build();
+    public ResponseEntity<ResponseMessage> deleteUser(@PathVariable Long employeeId) {
+        return ResponseEntity.ok( userService.deleteUserById(employeeId));
     }
 }

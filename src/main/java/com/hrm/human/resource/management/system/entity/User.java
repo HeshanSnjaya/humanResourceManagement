@@ -10,6 +10,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.time.LocalDate;
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
 @Getter
 @Setter
@@ -41,10 +42,19 @@ public class User implements UserDetails {
     private String employmentType;
     private Date joinedDate;
     private Float basicSalary;
-
-
     @Enumerated(EnumType.STRING)
     private Role role;
+
+    @ManyToOne
+    @JoinColumn(name = "departmentId")
+    private Department department;
+
+    @ManyToOne
+    @JoinColumn(name = "positionId")
+    private Position position;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Leave> leaves;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
