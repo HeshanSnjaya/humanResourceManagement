@@ -1,4 +1,5 @@
 import React from "react";
+import Search from "../Search";
 
 const DepartmentForm = ({ closeModal }) => {
   return (
@@ -7,7 +8,7 @@ const DepartmentForm = ({ closeModal }) => {
       tabIndex="-1"
       className="fixed inset-0 flex items-center justify-center z-50"
     >
-      <div className="relative p-4 w-full max-w-md max-h-full">
+      <div className="relative p-4 w-full max-w-2xl max-h-full">
         {/* Modal content */}
         <div className="relative bg-white rounded-lg shadow border-2 border-gray-600">
           {/* Modal header */}
@@ -64,17 +65,10 @@ const DepartmentForm = ({ closeModal }) => {
                 >
                   Deapartment Head Name
                 </label>
-                <input
-                  type="text"
-                  name="price"
-                  id="price"
-                  className="bg-gray-50 border text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 border-gray-500 placeholder-gray-400"
-                  placeholder="Mr. Amalraj"
-                  required=""
-                />
+                <Search />
               </div>
 
-              <div className="col-span-2 sm:col-span-1">
+              {/* <div className="col-span-2 sm:col-span-1">
                 <label
                   htmlFor="price"
                   className="block mb-2 text-sm font-medium text-gray-900"
@@ -89,7 +83,7 @@ const DepartmentForm = ({ closeModal }) => {
                   placeholder="head@gmail.com"
                   required=""
                 />
-              </div>
+              </div> */}
 
               <div className="col-span-2">
                 <label

@@ -1,11 +1,15 @@
 import React from "react";
 import Welcome from "../components/Welcome";
+import Search from "../components/Search";
 
 const DashBoard = () => {
   return (
     <div className="flex flex-col bg-[#cfe0fa] min-h-[100vh] ml-[220px]">
       <div className="flex flex-col pl-10 pt-5">
-        <Welcome name="Welcome Lakmini" tab="Admin Panel" />
+        <div className="flex flex-row">
+          <Search />
+        </div>
+
         <div className="flex flex-row mt-[25px] gap-x-[90px]">
           <div className="bg-white flex rounded-xl w-[15rem] h-[10rem]"></div>
           <div className="bg-white flex rounded-xl w-[15rem] h-[10rem]"></div>

@@ -1,30 +1,39 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Welcome from "../components/Welcome";
+import { getAllEmployees } from "../Services/RestApiCalls";
 
 const Employees = () => {
-  const [employeess, setEmployees] = useState([
-    {
-      userName: "emp-001",
-      Name: "Saman Silva",
-      Position: "finance manager",
-      Department: "Finance Department",
-      email: "emp-001@dian.com",
-    },
-    {
-      userName: "emp-001",
-      Name: "Saman Silva",
-      Position: "finance manager",
-      Department: "Finance Department",
-      email: "emp-001@dian.com",
-    },
-    {
-      userName: "emp-001",
-      Name: "Saman Silva",
-      Position: "finance manager",
-      Department: "Finance Department",
-      email: "emp-001@dian.com",
-    },
-  ]);
+  const [employeess, setEmployees] = useState();
+  // {
+  //   userName: "emp-001",
+  //   Name: "Saman Silva",
+  //   Position: "finance manager",
+  //   Department: "Finance Department",
+  //   email: "emp-001@dian.com",
+  // },
+  // {
+  //   userName: "emp-001",
+  //   Name: "Saman Silva",
+  //   Position: "finance manager",
+  //   Department: "Finance Department",
+  //   email: "emp-001@dian.com",
+  // },
+  // {
+  //   userName: "emp-001",
+  //   Name: "Saman Silva",
+  //   Position: "finance manager",
+  //   Department: "Finance Department",
+  //   email: "emp-001@dian.com",
+  // },
+
+  useEffect(() => {
+    const fetchEmployees = async () => {
+      const fetchedEmployees = await getAllEmployees();
+      setEmployees(fetchedEmployees);
+    };
+
+    fetchEmployees();
+  }, []);
   return (
     <div className="flex flex-col bg-[#d0e0e5] min-h-[100vh] ml-[220px]">
       <div className="flex flex-col pl-10 pt-5">
@@ -58,32 +67,44 @@ const Employees = () => {
                 </tr>
               </thead>
               <tbody>
-                {employeess.map((emp, key) => {
-                  return (
-                    <tr
-                      id={key}
-                      className="bg-white border-b text-gray-900 font-medium"
+                {employeess !== undefined ? (
+                  employeess.map((emp, key) => {
+                    return (
+                      <tr
+                        id={key}
+                        key={emp.id} // Add a key prop for React's list rendering
+                        className="bg-white border-b text-gray-900 font-medium"
+                      >
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          {emp.userName}
+                        </td>
+                        <td className="px-6 py-4">{emp.firstName}</td>
+                        <td className="px-6 py-4">{emp.position}</td>
+                        <td className="px-6 py-4">{emp.department}</td>
+                        <td className="px-6 py-4">{emp.workEmail}</td>
+                        <td className="px-6 py-4">
+                          <div className="bg-[#0c8ce9] flex justify-center py-[5px] rounded-md cursor-pointer">
+                            View
+                          </div>
+                        </td>
+                        <td className="px-6 py-4">
+                          <div className="bg-[#ed1b24] flex justify-center py-[5px] rounded-md cursor-pointer">
+                            Delete
+                          </div>
+                        </td>
+                      </tr>
+                    );
+                  })
+                ) : (
+                  <tr>
+                    <td
+                      colSpan="7"
+                      className="px-6 py-4 text-center text-gray-500"
                     >
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        {emp.userName}
-                      </td>
-                      <td className="px-6 py-4">{emp.Name}</td>
-                      <td className="px-6 py-4">{emp.Position}</td>
-                      <td className="px-6 py-4">{emp.Department}</td>
-                      <td className="px-6 py-4">{emp.email}</td>
-                      <td className="px-6 py-4">
-                        <div className="bg-[#0c8ce9] flex justify-center py-[5px] rounded-md">
-                          View
-                        </div>
-                      </td>
-                      <td className="px-6 py-4">
-                        <div className="bg-[#ed1b24] flex justify-center py-[5px] rounded-md">
-                          Delete
-                        </div>
-                      </td>
-                    </tr>
-                  );
-                })}
+                      Currently no employees
+                    </td>
+                  </tr>
+                )}
               </tbody>
             </table>
           </div>

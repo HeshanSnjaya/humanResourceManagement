@@ -26,6 +26,13 @@ const Sidebar = ({ activetab, onTabChange }) => {
     setEmployeeDropdownOpen(!isEmployeeDropdownOpen);
   };
 
+  const handleLogout = () => {
+    // Clear the token from local storage
+    localStorage.removeItem("token");
+    localStorage.removeItem("workEmail");
+    window.location.href = "/";
+  };
+
   return (
     <aside
       id="logo-sidebar"
@@ -82,7 +89,10 @@ const Sidebar = ({ activetab, onTabChange }) => {
               )}
             </li>
           ))}
-          <button className="flex items-center w-[200px] p-2 text-[#013a63] pl-7 pr-7 rounded-lg hover:bg-[#e3f2fd] font-medium">
+          <button
+            onClick={handleLogout}
+            className="flex items-center w-[200px] p-2 text-[#013a63] pl-7 pr-7 rounded-lg hover:bg-[#e3f2fd] font-medium"
+          >
             <img src={logout} className="w-5 h-5" alt="logout" />
             <span className="ms-3">Logout</span>
           </button>

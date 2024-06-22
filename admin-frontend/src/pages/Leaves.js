@@ -71,7 +71,7 @@ const Leaves = () => {
                       <td className="px-6 py-4">{leavf.To}</td>
                       <td className="px-6 py-4">{leavf.Reason}</td>
                       <td className="px-6 py-4">
-                        {" "}
+                      {" "}  
                         <select
                           id="category"
                           className="bg-gray-50 border text-gray-900 text-sm rounded-lg block w-full p-2.5  border-gray-500 placeholder-gray-400 focus:ring-primary-500 focus:border-primary-500"

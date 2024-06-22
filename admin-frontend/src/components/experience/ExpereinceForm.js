@@ -1,6 +1,25 @@
-import React from "react";
+import React, { useState } from "react";
 
-const ExpereinceForm = ({ closeModal }) => {
+const ExpereinceForm = ({ closeModal, onSubmit }) => {
+  const [experience, setExperience] = useState({
+    previousCompany: "",
+    designation: "",
+    from: "",
+    to: "",
+  });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setExperience({
+      ...experience,
+      [name]: value,
+    });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    onSubmit(experience);
+  };
   return (
     <div
       id="leave-form"
@@ -39,70 +58,65 @@ const ExpereinceForm = ({ closeModal }) => {
             </button>
           </div>
           {/* Modal body */}
-          <form className="p-4 md:p-5">
+          <form className="p-4 md:p-5" onSubmit={handleSubmit}>
             <div className="grid gap-4 mb-4 grid-cols-2">
               <div className="col-span-2 sm:col-span-1">
-                <label
-                  htmlFor="price"
-                  className="block mb-2 text-sm font-medium text-gray-900"
-                >
+                <label className="block mb-2 text-sm font-medium text-gray-900">
                   Previous Company
                 </label>
                 <input
-                  type="text"
-                  name="price"
-                  id="price"
+                  name="previousCompany"
+                  id="previousCompany"
                   className="bg-gray-50 border text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 border-gray-500 placeholder-gray-400"
-                  placeholder="Hr department"
-                  required=""
+                  placeholder="Enter Compnay name"
+                  value={experience.previousCompany}
+                  onChange={handleChange}
+                  required
                 />
               </div>
               <div className="col-span-2 sm:col-span-1">
-                <label
-                  htmlFor="price"
-                  className="block mb-2 text-sm font-medium text-gray-900"
-                >
+                <label className="block mb-2 text-sm font-medium text-gray-900">
                   Designation
                 </label>
                 <input
                   type="text"
-                  name="price"
-                  id="price"
+                  name="designation"
+                  id="designation"
                   className="bg-gray-50 border text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 border-gray-500 placeholder-gray-400"
-                  placeholder="Mr. Amalraj"
-                  required=""
+                  placeholder="Enter designation"
+                  value={experience.designation}
+                  onChange={handleChange}
+                  required
                 />
               </div>
               <div className="col-span-2 sm:col-span-1">
-                <label
-                  htmlFor="price"
-                  className="block mb-2 text-sm font-medium text-gray-900"
-                >
+                <label className="block mb-2 text-sm font-medium text-gray-900">
                   From
                 </label>
                 <input
                   type="text"
-                  name="price"
-                  id="price"
+                  name="from"
+                  id="from"
                   className="bg-gray-50 border text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 border-gray-500 placeholder-gray-400"
-                  placeholder="Hr department"
-                  required=""
+                  placeholder="Enter date"
+                  value={experience.from}
+                  onChange={handleChange}
+                  required
                 />
               </div>
               <div className="col-span-2 sm:col-span-1">
-                <label
-                  htmlFor="price"
-                  className="block mb-2 text-sm font-medium text-gray-900"
-                >
+                <label className="block mb-2 text-sm font-medium text-gray-900">
                   To
                 </label>
                 <input
                   type="text"
-                  name="price"
-                  id="price"
+                  name="to"
+                  id="to"
                   className="bg-gray-50 border text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 border-gray-500 placeholder-gray-400"
-                  placeholder="Mr. Amalraj"
-                  required=""
+                  placeholder="Enter Date"
+                  value={experience.to}
+                  onChange={handleChange}
+                  required
                 />
               </div>
             </div>

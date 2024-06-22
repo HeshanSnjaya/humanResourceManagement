@@ -1,6 +1,26 @@
-import React from "react";
+import React, { useState } from "react";
 
-const QualificationForm = ({ closeModal }) => {
+const QualificationForm = ({ closeModal, onSubmit }) => {
+  const [qualification, setQualification] = useState({
+    cousreName: "",
+    instituteName: "",
+    marks: "",
+    completionYear: "",
+  });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setQualification({
+      ...qualification,
+      [name]: value,
+    });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    onSubmit(qualification);
+  };
+
   return (
     <div
       id="leave-form"
@@ -39,70 +59,78 @@ const QualificationForm = ({ closeModal }) => {
             </button>
           </div>
           {/* Modal body */}
-          <form className="p-4 md:p-5">
+          <form className="p-4 md:p-5" onSubmit={handleSubmit}>
             <div className="grid gap-4 mb-4 grid-cols-2">
               <div className="col-span-2 sm:col-span-1">
                 <label
-                  htmlFor="price"
+                  htmlFor="cousreName"
                   className="block mb-2 text-sm font-medium text-gray-900"
                 >
                   Course Name
                 </label>
                 <input
                   type="text"
-                  name="price"
-                  id="price"
+                  name="cousreName"
+                  id="cousreName"
                   className="bg-gray-50 border text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 border-gray-500 placeholder-gray-400"
-                  placeholder="Hr department"
-                  required=""
+                  placeholder="Enter course name"
+                  value={qualification.cousreName}
+                  onChange={handleChange}
+                  required
                 />
               </div>
               <div className="col-span-2 sm:col-span-1">
                 <label
-                  htmlFor="price"
+                  htmlFor="instituteName"
                   className="block mb-2 text-sm font-medium text-gray-900"
                 >
                   Institute Name
                 </label>
                 <input
                   type="text"
-                  name="price"
-                  id="price"
+                  name="instituteName"
+                  id="instituteName"
                   className="bg-gray-50 border text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 border-gray-500 placeholder-gray-400"
-                  placeholder="Mr. Amalraj"
-                  required=""
+                  placeholder="Enter institue name"
+                  value={qualification.instituteName}
+                  onChange={handleChange}
+                  required
                 />
               </div>
               <div className="col-span-2 sm:col-span-1">
                 <label
-                  htmlFor="price"
+                  htmlFor="marks"
                   className="block mb-2 text-sm font-medium text-gray-900"
                 >
                   Marks
                 </label>
                 <input
                   type="text"
-                  name="price"
-                  id="price"
+                  name="marks"
+                  id="marks"
                   className="bg-gray-50 border text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 border-gray-500 placeholder-gray-400"
-                  placeholder="Hr department"
-                  required=""
+                  placeholder="enter marks"
+                  value={qualification.marks}
+                  onChange={handleChange}
+                  required
                 />
               </div>
               <div className="col-span-2 sm:col-span-1">
                 <label
-                  htmlFor="price"
+                  htmlFor="completionYear"
                   className="block mb-2 text-sm font-medium text-gray-900"
                 >
                   Completion Year
                 </label>
                 <input
                   type="text"
-                  name="price"
-                  id="price"
+                  name="completionYear"
+                  id="completionYear"
                   className="bg-gray-50 border text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 border-gray-500 placeholder-gray-400"
-                  placeholder="Mr. Amalraj"
-                  required=""
+                  placeholder="2024"
+                  required
+                  value={qualification.completionYear}
+                  onChange={handleChange}
                 />
               </div>
             </div>
