@@ -53,7 +53,7 @@ public class User implements UserDetails {
     @JoinColumn(name = "positionId")
     private Position position;
 
-    @OneToMany(mappedBy = "employee", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "employee", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<Leave> leaves;
 
     @Override

@@ -6,6 +6,7 @@ import com.hrm.human.resource.management.system.dto.UserUpdateRequestDTO;
 import com.hrm.human.resource.management.system.entity.Department;
 import com.hrm.human.resource.management.system.entity.ResponseMessage;
 import com.hrm.human.resource.management.system.entity.User;
+import com.hrm.human.resource.management.system.repository.DepartmentRepository;
 import com.hrm.human.resource.management.system.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,8 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class UserService {
     private final UserRepository userRepository;
+    private final DepartmentRepository departmentRepository;
+
 
     public Optional<User> getUserById(Long employeeId) {
         return userRepository.findById(employeeId);
@@ -88,6 +91,14 @@ public class UserService {
     public ResponseMessage deleteUserById(Long employeeId) {
         Optional<User> userOptional = getUserById(employeeId);
         if (userOptional.isPresent()) {
+
+            User user = userOptional.get();
+
+            departmentRepository.findByDepartmentHead(user).ifPresent(department -> {
+                department.setDepartmentHead(null);
+                departmentRepository.save(department);
+            });
+
             userRepository.deleteById(employeeId);
             return ResponseMessage.builder()
                     .message("User is deleted Successfully")
