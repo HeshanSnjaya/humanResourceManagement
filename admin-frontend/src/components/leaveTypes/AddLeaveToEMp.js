@@ -13,7 +13,7 @@ const AddLeaveToEMp = ({ closeModal }) => {
           {/* Modal header */}
           <div className="flex items-center justify-between p-4 md:p-5 border-b rounded-t border-gray-600">
             <h3 className="text-lg font-semibold text-gray-900 ">
-              Add Payrole
+              Assign Leave for Employee
             </h3>
             <button
               type="button"

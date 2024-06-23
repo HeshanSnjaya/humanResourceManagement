@@ -102,11 +102,16 @@ const Departments = () => {
                         className="bg-white border-b text-gray-900 font-medium"
                       >
                         <td className="px-6 py-4 whitespace-nowrap">
-                          {dept.Name}
+                          {dept.departmentName}
                         </td>
-                        <td className="px-6 py-4">{dept.Description}</td>
-                        <td className="px-6 py-4">{dept.headName}</td>
-                        <td className="px-6 py-4">{dept.headEmail}</td>
+                        <td className="px-6 py-4">{dept.departmentDesc}</td>
+                        <td className="px-6 py-4">
+                          {dept.departmentHead.firstName}{" "}
+                          {dept.departmentHead.lastName}
+                        </td>
+                        <td className="px-6 py-4">
+                          {dept.departmentHead.workEmail}
+                        </td>
                         <td className="px-6 py-4">
                           <div
                             className="bg-[#0c8ce9] flex justify-center py-[5px] rounded-md"

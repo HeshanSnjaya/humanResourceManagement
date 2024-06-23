@@ -43,9 +43,9 @@ const Employees = () => {
             <table class="w-full text-sm text-left rtl:text-right">
               <thead class="text-xs text-white uppercase bg-[#6a44d9]">
                 <tr>
-                  <th scope="col" class="px-6 py-5">
+                  {/* <th scope="col" class="px-6 py-5">
                     User Name
-                  </th>
+                  </th> */}
                   <th scope="col" class="px-6 py-5">
                     Name
                   </th>
@@ -75,9 +75,9 @@ const Employees = () => {
                         key={emp.id} // Add a key prop for React's list rendering
                         className="bg-white border-b text-gray-900 font-medium"
                       >
-                        <td className="px-6 py-4 whitespace-nowrap">
+                        {/* <td className="px-6 py-4 whitespace-nowrap">
                           {emp.userName}
-                        </td>
+                        </td> */}
                         <td className="px-6 py-4">{emp.firstName}</td>
                         <td className="px-6 py-4">{emp.position}</td>
                         <td className="px-6 py-4">{emp.department}</td>

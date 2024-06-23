@@ -77,7 +77,7 @@ const Positions = () => {
                         <td className="px-6 py-4 whitespace-nowrap">
                           {pos.positionName}
                         </td>
-                        <td className="px-6 py-4">{pos.description}</td>
+                        <td className="px-6 py-4">{pos.positionDesc}</td>
 
                         <td className="px-6 py-4">
                           <div

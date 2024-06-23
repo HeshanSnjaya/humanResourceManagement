@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Welcome from "../components/Welcome";
 import TextBox from "../components/TextBox";
 import { AddNewEmployee } from "../Services/RestApiCalls";
 import QualificationForm from "../components/qualification/QualificationForm";
 import ExpereinceForm from "../components/experience/ExpereinceForm";
+import { getAllDepartments } from "../Services/DepartmentAPI";
+import { getAllPositions } from "../Services/PositionsAPi";
 
 const AddNewemployee = () => {
   //for get
@@ -13,6 +15,27 @@ const AddNewemployee = () => {
   //for post
   const [qualifications, setQualifications] = useState();
   const [experiences, setExperiences] = useState();
+
+  const [departments, setDepartments] = useState();
+
+  useEffect(() => {
+    const fetchDepartments = async () => {
+      const fetched = await getAllDepartments();
+      setDepartments(fetched);
+    };
+    fetchDepartments();
+  }, []);
+
+  const [positions, setPositions] = useState();
+
+  useEffect(() => {
+    const fetchPositions = async () => {
+      const fetched = await getAllPositions();
+      setPositions(fetched);
+    };
+
+    fetchPositions();
+  }, []);
 
   const handleQualiClick = () => {
     setquliAdd(true);
@@ -295,9 +318,18 @@ const AddNewemployee = () => {
                       value={employee.department}
                       onChange={handleChange}
                     >
-                      <option value="">Select Department</option>
-                      <option value="1">Hr Department</option>
-                      <option value="2">Finance Department</option>
+                      <option value="">Select department</option>
+                      {departments !== undefined ? (
+                        departments.map((dept, key) => {
+                          return (
+                            <option id={key} value={dept.departmentId}>
+                              {dept.departmentName}
+                            </option>
+                          );
+                        })
+                      ) : (
+                        <option value="">No values</option>
+                      )}
                     </select>
                   </div>
                 </div>
@@ -311,8 +343,17 @@ const AddNewemployee = () => {
                       onChange={handleChange}
                     >
                       <option value="">Select Position</option>
-                      <option value="Hr Manager">Hr Manager</option>
-                      <option value="Finance Manager">Finance Manager</option>
+                      {positions !== undefined ? (
+                        positions.map((pos, key) => {
+                          return (
+                            <option id={key} value={pos.positionId}>
+                              {pos.positionName}
+                            </option>
+                          );
+                        })
+                      ) : (
+                        <option value="">No values</option>
+                      )}
                     </select>
                   </div>
                 </div>

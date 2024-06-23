@@ -15,7 +15,9 @@ export const getAllPositions = async () => {
     withCredentials: true,
   });
   try {
-    const response = await authAxios.get("");
+    const response = await authAxios.get(
+      "http://localhost:8080/api/v1/position/all"
+    );
     console.log(response);
     return response.data;
   } catch (err) {
