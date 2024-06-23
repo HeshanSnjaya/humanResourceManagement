@@ -1,7 +1,10 @@
 package com.hrm.human.resource.management.system.service;
 
+import com.hrm.human.resource.management.system.dto.DepartmentDTO;
 import com.hrm.human.resource.management.system.dto.UserDTO;
 import com.hrm.human.resource.management.system.dto.UserUpdateRequestDTO;
+import com.hrm.human.resource.management.system.entity.Department;
+import com.hrm.human.resource.management.system.entity.ResponseMessage;
 import com.hrm.human.resource.management.system.entity.User;
 import com.hrm.human.resource.management.system.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -9,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -41,15 +45,22 @@ public class UserService {
     }
 
     @Transactional
-    public Optional<UserDTO> updateUser(Long employeeId, UserUpdateRequestDTO request) {
+    public ResponseMessage updateUser(Long employeeId, UserUpdateRequestDTO request) {
         Optional<User> userOptional = getUserById(employeeId);
         if (userOptional.isPresent()) {
             User user = userOptional.get();
             updateUserData(user, request);
             userRepository.save(user);
-            return Optional.of(convertToDTO(user));
+            return ResponseMessage.builder()
+                    .message("User is updated Successfully")
+                    .build();
         }
-        return Optional.empty();
+        else{
+            return ResponseMessage.builder()
+                    .message("User is not found")
+                    .build();
+        }
+
     }
 
     private void updateUserData(User user, UserUpdateRequestDTO request) {
@@ -74,11 +85,36 @@ public class UserService {
         if (request.getRole() != null) user.setRole(request.getRole());
     }
 
-    public void deleteUserById(Long employeeId) {
-        userRepository.deleteById(employeeId);
+    public ResponseMessage deleteUserById(Long employeeId) {
+        Optional<User> userOptional = getUserById(employeeId);
+        if (userOptional.isPresent()) {
+            userRepository.deleteById(employeeId);
+            return ResponseMessage.builder()
+                    .message("User is deleted Successfully")
+                    .build();
+        }
+        else
+        {
+            return ResponseMessage.builder()
+                    .message("User is not found")
+                    .build();
+        }
     }
 
     private UserDTO convertToDTO(User user) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        String dobString = user.getDob().format(formatter);
+
+        DepartmentDTO departmentDTO = null;
+        if (user.getDepartment() != null) {
+            Department department = user.getDepartment();
+            departmentDTO = DepartmentDTO.builder()
+                    .departmentId(department.getDepartmentId())
+                    .departmentName(department.getDepartmentName())
+                    .departmentDesc(department.getDepartmentDesc())
+                    .build();
+        }
+
         return UserDTO.builder()
                 .employeeId(user.getEmployeeId())
                 .firstName(user.getFirstName())
@@ -89,7 +125,7 @@ public class UserService {
                 .employmentType(user.getEmploymentType())
                 .joinedDate(user.getJoinedDate())
                 .epfNo(user.getEpfNo())
-                .dob(user.getDob())
+                .dob(dobString)
                 .maritalStatus(user.getMaritalStatus())
                 .address(user.getAddress())
                 .spouseName(user.getSpouseName())
@@ -99,38 +135,7 @@ public class UserService {
                 .nic(user.getNic())
                 .homePhoneNo(user.getHomePhoneNo())
                 .age(user.getAge())
+                .department(departmentDTO)
                 .build();
     }
-
-//    public Optional<UserDTO> getUserDetailsByIdAndRole(Long employeeId, String role) {
-//        Optional<User> userOptional = getUserById(employeeId);
-//        if (userOptional.isPresent()) {
-//            User user = userOptional.get();
-//            if (user.getRole().name().equalsIgnoreCase(role)) {
-//                return Optional.of(UserDTO.builder()
-//                        .employeeId(user.getEmployeeId())
-//                        .firstName(user.getFirstName())
-//                        .lastName(user.getLastName())
-//                        .gender(user.getGender())
-//                        .workEmail(user.getWorkEmail())
-//                        .mobilePhoneNo(user.getMobilePhoneNo())
-//                        .workEmail(user.getWorkEmail())
-//                        .employmentType(user.getEmploymentType())
-//                        .joinedDate(user.getJoinedDate())
-//                        .epfNo(user.getEpfNo())
-//                        .dob(user.getDob())
-//                        .maritalStatus(user.getMaritalStatus())
-//                        .address(user.getAddress())
-//                        .spouseName(user.getSpouseName())
-//                        .fatherName(user.getFatherName())
-//                        .motherName(user.getMotherName())
-//                        .basicSalary(user.getBasicSalary())
-//                        .nic(user.getNic())
-//                        .homePhoneNo(user.getHomePhoneNo())
-//                        .age(user.getAge())
-//                        .build());
-//            }
-//        }
-//        return Optional.empty();
-//    }
 }

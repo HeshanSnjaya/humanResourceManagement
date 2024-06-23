@@ -1,6 +1,6 @@
 package com.hrm.human.resource.management.system.config;
 
-import org.springframework.boot.web.servlet.FilterRegistrationBean;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpHeaders;
@@ -14,9 +14,8 @@ import java.util.Arrays;
 
 @Configuration
 @EnableWebMvc
+@RequiredArgsConstructor
 public class WebConfig {
-
-
     private static final Long MAX_AGE = 3600L;
 
     @Bean
@@ -37,7 +36,7 @@ public class WebConfig {
                 HttpMethod.DELETE.name()));
         config.setMaxAge(MAX_AGE);
         source.registerCorsConfiguration("/**", config);
-        return new CorsFilter(source);
+        return new CorsFilter (source);
     }
 
 }

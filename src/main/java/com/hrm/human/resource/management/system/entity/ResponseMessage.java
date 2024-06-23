@@ -1,4 +1,4 @@
-package com.hrm.human.resource.management.system.auth;
+package com.hrm.human.resource.management.system.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,10 +9,6 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class AuthenticationResponse {
-
-    private String token;
+public class ResponseMessage {
     private String message;
-    private Long userId;
-
 }
