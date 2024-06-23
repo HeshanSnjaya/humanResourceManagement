@@ -10,6 +10,7 @@ import payrole from "../assets/payrole.png";
 
 const Sidebar = ({ activetab, onTabChange }) => {
   const [isEmployeeDropdownOpen, setEmployeeDropdownOpen] = useState(false);
+  const [isLeaveDropDown, setLeaveDropDown] = useState(false);
 
   const Tabs = [
     { name: "Dashboard", imgSrc: dashImg },
@@ -24,6 +25,10 @@ const Sidebar = ({ activetab, onTabChange }) => {
 
   const handleEmployeeClick = () => {
     setEmployeeDropdownOpen(!isEmployeeDropdownOpen);
+  };
+
+  const handleLeaveClick = () => {
+    setLeaveDropDown(!isLeaveDropDown);
   };
 
   const handleLogout = () => {
@@ -45,11 +50,13 @@ const Sidebar = ({ activetab, onTabChange }) => {
         </div>
 
         <ul className="space-y-2 font-medium md:mt-8">
-          {/* List items go here */}
-          {Tabs.map((tab, index) => (
-            <li key={index} className={activetab === tab.name ? "active" : ""}>
-              {tab.name === "Employees" ? (
-                <>
+          {Tabs.map((tab, index) => {
+            if (tab.name === "Employees") {
+              return (
+                <li
+                  key={index}
+                  className={activetab === tab.name ? "active" : ""}
+                >
                   <button
                     onClick={handleEmployeeClick}
                     className="flex items-center p-2 text-[#013a63] pl-7 rounded-lg hover:bg-[#e3f2fd] group w-full text-left"
@@ -77,8 +84,52 @@ const Sidebar = ({ activetab, onTabChange }) => {
                       </li>
                     </ul>
                   )}
-                </>
-              ) : (
+                </li>
+              );
+            }
+
+            if (tab.name === "Leaves") {
+              return (
+                <li
+                  key={index}
+                  className={activetab === tab.name ? "active" : ""}
+                >
+                  <button
+                    onClick={handleLeaveClick}
+                    className="flex items-center p-2 text-[#013a63] pl-7 rounded-lg hover:bg-[#e3f2fd] group w-full text-left"
+                  >
+                    <img src={tab.imgSrc} className="w-5 h-5" alt={tab.name} />
+                    <span className="ms-3">{tab.name}</span>
+                  </button>
+                  {isLeaveDropDown && (
+                    <ul className="ml-5 mt-1 space-y-2">
+                      <li className="pl-4">
+                        <Link
+                          to="/admin/leaves"
+                          className="flex items-center p-2 text-[#013a63] rounded-lg hover:bg-[#e3f2fd] group"
+                        >
+                          All LeaveForms
+                        </Link>
+                      </li>
+                      <li className="pl-4">
+                        <Link
+                          to="/admin/leaves/add"
+                          className="flex items-center p-2 text-[#013a63] rounded-lg hover:bg-[#e3f2fd] group"
+                        >
+                          Add Leave Type
+                        </Link>
+                      </li>
+                    </ul>
+                  )}
+                </li>
+              );
+            }
+
+            return (
+              <li
+                key={index}
+                className={activetab === tab.name ? "active" : ""}
+              >
                 <Link
                   to={`/admin/${tab.name.toLowerCase()}`}
                   className="flex items-center p-2 text-[#013a63] pl-7 rounded-lg hover:bg-[#e3f2fd] group"
@@ -86,9 +137,10 @@ const Sidebar = ({ activetab, onTabChange }) => {
                   <img src={tab.imgSrc} className="w-5 h-5" alt={tab.name} />
                   <span className="ms-3">{tab.name}</span>
                 </Link>
-              )}
-            </li>
-          ))}
+              </li>
+            );
+          })}
+
           <button
             onClick={handleLogout}
             className="flex items-center w-[200px] p-2 text-[#013a63] pl-7 pr-7 rounded-lg hover:bg-[#e3f2fd] font-medium"

@@ -11,6 +11,7 @@ import Attendences from "./pages/Attendences.js";
 import Announcements from "./pages/Announcements.js";
 import PayRole from "./pages/PayRole.js";
 import Leaves from "./pages/Leaves.js";
+import AddLeaveType from "./pages/AddLeaveType.js";
 
 function App() {
   return (
@@ -96,6 +97,15 @@ function App() {
             <>
               <Sidebar />
               <Leaves />
+            </>
+          }
+        />
+        <Route
+          path="/admin/leaves/add"
+          element={
+            <>
+              <Sidebar />
+              <AddLeaveType />
             </>
           }
         />

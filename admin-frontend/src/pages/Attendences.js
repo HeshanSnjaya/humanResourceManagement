@@ -1,7 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Welcome from "../components/Welcome";
+import { getAllEmployees } from "../Services/RestApiCalls";
 
 const Attendences = () => {
+  const [employeess, setEmployees] = useState();
   const [attdences, setAttdences] = useState([
     {
       date: "01/03/2024",
@@ -32,13 +34,23 @@ const Attendences = () => {
       status: "leave",
     },
   ]);
+
+  useEffect(() => {
+    const fetchEmployees = async () => {
+      const fetchedEmployees = await getAllEmployees();
+      setEmployees(fetchedEmployees);
+    };
+
+    fetchEmployees();
+  }, []);
+
   return (
     <div className="flex flex-col bg-[#d0e0e5] min-h-[100vh] ml-[220px]">
       <div className="flex flex-col pl-10 pt-5">
         <Welcome name="Welcome Lakmini" tab="Attendance" />
         <div className="flex flex-row md:w-[96.4%] mt-[25px] justify-end gap-x-10">
           {/* search */}
-          <div>
+          {/* <div>
             <form className="max-w-md mx-auto">
               <label
                 for="default-search"
@@ -78,6 +90,53 @@ const Attendences = () => {
                   Search
                 </button>
               </div>
+            </form>
+          </div> */}
+          <div>
+            <form className="max-w-sm mx-auto">
+              <select
+                id="countries"
+                className="bg-[#013a63] border border-gray-300 text-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full py-4 px-3"
+              >
+                <option selected>Select Employee</option>
+                {/* <option value="1">lakmini@gmail.com</option>
+                <option value="2">kamal@gmail.com</option>
+                <option value="3">amal@gmail.com</option> */}
+                {employeess !== undefined ? (
+                  employeess.map((emp, key) => {
+                    return (
+                      // <tr
+                      //   id={key}
+                      //   key={emp.id} // Add a key prop for React's list rendering
+                      //   className="bg-white border-b text-gray-900 font-medium"
+                      // >
+                      //   <td className="px-6 py-4 whitespace-nowrap">
+                      //     {emp.userName}
+                      //   </td>
+                      //   <td className="px-6 py-4">{emp.firstName}</td>
+                      //   <td className="px-6 py-4">{emp.position}</td>
+                      //   <td className="px-6 py-4">{emp.department}</td>
+                      //   <td className="px-6 py-4">{emp.workEmail}</td>
+                      //   <td className="px-6 py-4">
+                      //     <div className="bg-[#0c8ce9] flex justify-center py-[5px] rounded-md cursor-pointer">
+                      //       View
+                      //     </div>
+                      //   </td>
+                      //   <td className="px-6 py-4">
+                      //     <div className="bg-[#ed1b24] flex justify-center py-[5px] rounded-md cursor-pointer">
+                      //       Delete
+                      //     </div>
+                      //   </td>
+                      // </tr>
+                      <option id={key} value={emp.employeeId}>
+                        {emp.workEmail}
+                      </option>
+                    );
+                  })
+                ) : (
+                  <option value="">No employees</option>
+                )}
+              </select>
             </form>
           </div>
           <div>

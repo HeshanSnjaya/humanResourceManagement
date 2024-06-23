@@ -6,9 +6,9 @@ const DashBoard = () => {
   return (
     <div className="flex flex-col bg-[#cfe0fa] min-h-[100vh] ml-[220px]">
       <div className="flex flex-col pl-10 pt-5">
-        <div className="flex flex-row">
+        {/* <div className="flex flex-row">
           <Search />
-        </div>
+        </div> */}
 
         <div className="flex flex-row mt-[25px] gap-x-[90px]">
           <div className="bg-white flex rounded-xl w-[15rem] h-[10rem]"></div>
