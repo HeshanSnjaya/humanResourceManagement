@@ -1,10 +1,14 @@
 package com.hrm.human.resource.management.system.auth;
 
 import com.hrm.human.resource.management.system.config.JwtService;
+import com.hrm.human.resource.management.system.entity.Department;
+import com.hrm.human.resource.management.system.entity.Position;
 import com.hrm.human.resource.management.system.entity.ResponseMessage;
 import com.hrm.human.resource.management.system.entity.User;
 import com.hrm.human.resource.management.system.exception.EmailAlreadyExistException;
 import com.hrm.human.resource.management.system.exception.EmailOrPasswordIncorrectException;
+import com.hrm.human.resource.management.system.repository.DepartmentRepository;
+import com.hrm.human.resource.management.system.repository.PositionRepository;
 import com.hrm.human.resource.management.system.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -21,16 +25,32 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class AuthenticationService {
 
-    private final UserRepository repository;
+    private final UserRepository userRepository;
+    private final DepartmentRepository departmentRepository;
+
+    private final PositionRepository positionRepository;
+
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
 
     public ResponseMessage register(RegisterRequest request) {
-        Optional<User> existingUserOptional = repository.findByWorkEmail(request.getWorkEmail());
+        Optional<User> existingUserOptional = userRepository.findByWorkEmail(request.getWorkEmail());
+        Optional<Department> department = departmentRepository.findById(request.getDepartmentId());
+        Optional<Position> position = positionRepository.findById(request.getPositionId());
         if (existingUserOptional.isPresent()) {
             return ResponseMessage.builder()
                     .message("Email Already Exists")
+                    .build();
+        }
+        if (!department.isPresent()) {
+            return ResponseMessage.builder()
+                    .message("Department not found")
+                    .build();
+        }
+        if (!position.isPresent()) {
+            return ResponseMessage.builder()
+                    .message("Position not found")
                     .build();
         }
         else{
@@ -56,8 +76,10 @@ public class AuthenticationService {
                     .joinedDate(request.getJoinedDate())
                     .role(request.getRole())
                     .basicSalary(request.getBasicSalary())
+                    .department(department.get())
+                    .position(position.get())
                     .build();
-            repository.save(user);
+            userRepository.save(user);
             var jwtToken = jwtService.generateToken(user);
             return ResponseMessage.builder()
                     .message("User is registered Successfully")
@@ -76,7 +98,7 @@ public class AuthenticationService {
                     )
             );
 
-            var user = repository.findByWorkEmail(request.getWorkEmail())
+            var user = userRepository.findByWorkEmail(request.getWorkEmail())
                     .orElseThrow();
             var jwtToken = jwtService.generateToken(user);
 
