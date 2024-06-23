@@ -1,6 +1,7 @@
 package com.hrm.human.resource.management.system.auth;
 
 import com.hrm.human.resource.management.system.config.JwtService;
+import com.hrm.human.resource.management.system.entity.ResponseMessage;
 import com.hrm.human.resource.management.system.entity.User;
 import com.hrm.human.resource.management.system.exception.EmailAlreadyExistException;
 import com.hrm.human.resource.management.system.exception.EmailOrPasswordIncorrectException;
@@ -25,11 +26,12 @@ public class AuthenticationService {
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
 
-    public AuthenticationResponse register(RegisterRequest request) {
+    public ResponseMessage register(RegisterRequest request) {
         Optional<User> existingUserOptional = repository.findByWorkEmail(request.getWorkEmail());
         if (existingUserOptional.isPresent()) {
-            /*User existingUser = existingUserOptional.get();*/
-            throw new EmailAlreadyExistException("Email Already Exists");
+            return ResponseMessage.builder()
+                    .message("Email Already Exists")
+                    .build();
         }
         else{
             int age = calculateAge(request.getDob());
@@ -57,8 +59,8 @@ public class AuthenticationService {
                     .build();
             repository.save(user);
             var jwtToken = jwtService.generateToken(user);
-            return AuthenticationResponse.builder()
-                    .token(jwtToken)
+            return ResponseMessage.builder()
+                    .message("User is registered Successfully")
                     .build();
 
         }
@@ -76,14 +78,17 @@ public class AuthenticationService {
 
             var user = repository.findByWorkEmail(request.getWorkEmail())
                     .orElseThrow();
-
             var jwtToken = jwtService.generateToken(user);
 
             return AuthenticationResponse.builder()
                     .token(jwtToken)
+                    .message("User is valid")
+                    .userId(user.getEmployeeId())
                     .build();
         } catch (AuthenticationException ex) {
-            throw new EmailOrPasswordIncorrectException("Email or Password is incorrect");
+            return AuthenticationResponse.builder()
+                    .message("Email or Password is incorrect")
+                    .build();
         }
     }
 

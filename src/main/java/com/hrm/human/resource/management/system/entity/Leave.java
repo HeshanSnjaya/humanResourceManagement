@@ -16,4 +16,8 @@ public class Leave {
     private Long leaveId;
     private String leaveTypeName;
     private Integer noOfLeaves;
+
+    @ManyToOne
+    @JoinColumn(name = "employeeId")
+    private User employee;
 }

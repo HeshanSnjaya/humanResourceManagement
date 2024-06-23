@@ -1,5 +1,6 @@
 package com.hrm.human.resource.management.system.auth;
 
+import com.hrm.human.resource.management.system.entity.ResponseMessage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,7 +14,7 @@ public class AuthenticationController {
     private final AuthenticationService service;
 
     @PostMapping("/register")
-    public ResponseEntity<AuthenticationResponse>register(
+    public ResponseEntity<ResponseMessage>register(
             @RequestBody RegisterRequest request
     ){
         return ResponseEntity.ok(service.register(request));
