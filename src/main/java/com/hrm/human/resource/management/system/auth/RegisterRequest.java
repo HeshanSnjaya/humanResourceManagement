@@ -1,5 +1,6 @@
 package com.hrm.human.resource.management.system.auth;
 
+import com.hrm.human.resource.management.system.dto.DepartmentDTO;
 import com.hrm.human.resource.management.system.entity.Role;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -36,5 +37,6 @@ public class RegisterRequest {
     private Date joinedDate;
     private Role role;
     private Float basicSalary;
-
+    private Long departmentId;
+    private Long positionId;
 }
