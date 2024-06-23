@@ -16,6 +16,7 @@ import java.util.Arrays;
 @EnableWebMvc
 @RequiredArgsConstructor
 public class WebConfig {
+    
     private static final Long MAX_AGE = 3600L;
 
     @Bean
