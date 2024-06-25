@@ -43,7 +43,7 @@ public class AuthenticationService {
                     .message("Email Already Exists")
                     .build();
         }
-        if (!department.isPresent()) {
+        if(!department.isPresent()) {
             return ResponseMessage.builder()
                     .message("Department not found")
                     .build();
