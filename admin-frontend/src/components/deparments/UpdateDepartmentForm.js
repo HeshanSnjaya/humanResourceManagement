@@ -1,6 +1,56 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { getAllEmployees } from "../../Services/RestApiCalls";
+import UpdateDepartmentByID from "../../Services/DepartmentAPI";
 
-const UpdateDepartmentForm = ({ closeModal }) => {
+const UpdateDepartmentForm = ({ closeModal, initialDeptData }) => {
+  const [department, setDepartment] = useState({
+    departmentName: "",
+    departmentDesc: "",
+    departmentHeadId: "",
+  });
+  const [employeess, setEmployees] = useState();
+
+  useEffect(() => {
+    const fetchEmployees = async () => {
+      const fetchedEmployees = await getAllEmployees();
+      // setEmployees(fetchedEmployees);
+    };
+
+    fetchEmployees();
+  }, []);
+
+  const handleChange = (e) => {
+    const { id, value } = e.target;
+    setDepartment({
+      ...department,
+      [id]: value,
+    });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const requiredFields = [
+      "departmentName",
+      "departmentDesc",
+      "departmentHeadId",
+    ];
+
+    for (let field of requiredFields) {
+      if (!department[field]) {
+        alert(`Please fill the ${field} field.`);
+        return;
+      }
+    }
+    console.log("Form Data:", department);
+
+    try {
+      await UpdateDepartmentByID(department, initialDeptData.departmentId);
+    } catch (error) {
+      console.error("Login Error:", error);
+    }
+    closeModal();
+  };
+
   return (
     <div
       id="leave-form"
@@ -48,14 +98,16 @@ const UpdateDepartmentForm = ({ closeModal }) => {
                 >
                   Department Name
                 </label>
-                <input
+                {/* <input
                   type="text"
-                  name="price"
-                  id="price"
+                  name="departmentName"
+                  id="departmentName"
                   className="bg-gray-50 border text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 border-gray-500 placeholder-gray-400"
                   placeholder="Hr department"
-                  required=""
-                />
+                  value={department.departmentName}
+                  onChange={handleChange}
+                  required
+                /> */}
               </div>
               <div className="col-span-2 sm:col-span-1">
                 <label
@@ -81,14 +133,25 @@ const UpdateDepartmentForm = ({ closeModal }) => {
                 >
                   Department Head Mail
                 </label>
-                <input
-                  type="text"
-                  name="price"
-                  id="price"
-                  className="bg-gray-50 border text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 border-gray-500 placeholder-gray-400"
-                  placeholder="head@gmail.com"
-                  required=""
-                />
+                <select
+                  id="departmentHeadId"
+                  className="bg-gray-50 border text-gray-900 text-sm rounded-lg block w-[300px] p-2.5  border-gray-500 placeholder-gray-400 focus:ring-primary-500 focus:border-primary-500"
+                  value={department.departmentHeadId}
+                  onChange={handleChange}
+                >
+                  <option value="">Select Employee</option>
+                  {employeess !== undefined ? (
+                    employeess.map((emp, key) => {
+                      return (
+                        <option id={key} value={emp.employeeId}>
+                          {emp.workEmail}
+                        </option>
+                      );
+                    })
+                  ) : (
+                    <option value="">No values</option>
+                  )}
+                </select>
               </div>
 
               <div className="col-span-2">
@@ -99,7 +162,9 @@ const UpdateDepartmentForm = ({ closeModal }) => {
                   Description
                 </label>
                 <textarea
-                  id="description"
+                  id="departmentDesc"
+                  value={department.departmentDesc}
+                  onChange={handleChange}
                   rows="4"
                   className="bg-gray-50 border text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 border-gray-500 placeholder-gray-400"
                   placeholder="Write your description"

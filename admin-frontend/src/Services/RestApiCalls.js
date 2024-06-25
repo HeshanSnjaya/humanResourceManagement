@@ -14,6 +14,7 @@ export const logUser = async (user) => {
       "http://localhost:8080/api/v1/auth/authenticate",
       user
     );
+    console.log("this is response", response.data);
     const { token } = response.data;
     console.log("this is login token", token);
     localStorage.setItem("token", token);
@@ -23,6 +24,7 @@ export const logUser = async (user) => {
     );
     const decodedToken = jwt_decode(JSON.stringify(token));
     localStorage.setItem("workEmail", decodedToken.sub);
+    localStorage.setItem("uid", response.data.userId);
     console.log("this is decoded token", decodedToken);
 
     window.location.href = "http://localhost:3000/admin/dashboard";

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Welcome from "../components/Welcome";
 import { getAllEmployees } from "../Services/RestApiCalls";
+import { DeleteEmployeeByID } from "../Services/RestApiCalls";
 
 const Employees = () => {
   const [employeess, setEmployees] = useState();
@@ -34,6 +35,7 @@ const Employees = () => {
 
     fetchEmployees();
   }, []);
+
   return (
     <div className="flex flex-col bg-[#d0e0e5] min-h-[100vh] ml-[220px]">
       <div className="flex flex-col pl-10 pt-5">
@@ -88,7 +90,10 @@ const Employees = () => {
                           </div>
                         </td>
                         <td className="px-6 py-4">
-                          <div className="bg-[#ed1b24] flex justify-center py-[5px] rounded-md cursor-pointer">
+                          <div
+                            className="bg-[#ed1b24] flex justify-center py-[5px] rounded-md cursor-pointer"
+                            // onClick={DeleteEmployeeByID(emp.employeeId)}
+                          >
                             Delete
                           </div>
                         </td>

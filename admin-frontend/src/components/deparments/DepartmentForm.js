@@ -1,7 +1,58 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Search from "../Search";
+import UpdateDepartmentByID, {
+  AddDepartment,
+} from "../../Services/DepartmentAPI";
+import { getAllEmployees } from "../../Services/RestApiCalls";
 
 const DepartmentForm = ({ closeModal }) => {
+  const [department, setDepartment] = useState({
+    departmentName: "",
+    departmentDesc: "",
+    departmentHeadId: "",
+  });
+  const [employeess, setEmployees] = useState();
+
+  useEffect(() => {
+    const fetchEmployees = async () => {
+      const fetchedEmployees = await getAllEmployees();
+      // setEmployees(fetchedEmployees);
+    };
+
+    fetchEmployees();
+  }, []);
+
+  const handleChange = (e) => {
+    const { id, value } = e.target;
+    setDepartment({
+      ...department,
+      [id]: value,
+    });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const requiredFields = [
+      "departmentName",
+      "departmentDesc",
+      "departmentHeadId",
+    ];
+
+    for (let field of requiredFields) {
+      if (!department[field]) {
+        alert(`Please fill the ${field} field.`);
+        return;
+      }
+    }
+    console.log("Form Data:", department);
+
+    try {
+      await AddDepartment(department);
+    } catch (error) {
+      console.error("Login Error:", error);
+    }
+    closeModal();
+  };
   return (
     <div
       id="leave-form"
@@ -40,7 +91,7 @@ const DepartmentForm = ({ closeModal }) => {
             </button>
           </div>
           {/* Modal body */}
-          <form className="p-4 md:p-5">
+          <form className="p-4 md:p-5" onSubmit={handleSubmit}>
             <div className="grid gap-4 mb-4 grid-cols-2">
               <div className="col-span-2 sm:col-span-1">
                 <label
@@ -51,11 +102,13 @@ const DepartmentForm = ({ closeModal }) => {
                 </label>
                 <input
                   type="text"
-                  name="price"
-                  id="price"
+                  name="departmentName"
+                  id="departmentName"
                   className="bg-gray-50 border text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 border-gray-500 placeholder-gray-400"
                   placeholder="Hr department"
-                  required=""
+                  value={department.departmentName}
+                  onChange={handleChange}
+                  required
                 />
               </div>
               <div className="col-span-2 sm:col-span-1">
@@ -63,9 +116,28 @@ const DepartmentForm = ({ closeModal }) => {
                   htmlFor="price"
                   className="block mb-2 text-sm font-medium text-gray-900"
                 >
-                  Deapartment Head Name
+                  Deapartment Head
                 </label>
-                <Search />
+
+                <select
+                  id="departmentHeadId"
+                  className="bg-gray-50 border text-gray-900 text-sm rounded-lg block w-[300px] p-2.5  border-gray-500 placeholder-gray-400 focus:ring-primary-500 focus:border-primary-500"
+                  value={department.departmentHeadId}
+                  onChange={handleChange}
+                >
+                  <option value="">Select Employee</option>
+                  {employeess !== undefined ? (
+                    employeess.map((emp, key) => {
+                      return (
+                        <option id={key} value={emp.employeeId}>
+                          {emp.workEmail}
+                        </option>
+                      );
+                    })
+                  ) : (
+                    <option value="">No values</option>
+                  )}
+                </select>
               </div>
 
               {/* <div className="col-span-2 sm:col-span-1">
@@ -86,14 +158,13 @@ const DepartmentForm = ({ closeModal }) => {
               </div> */}
 
               <div className="col-span-2">
-                <label
-                  htmlFor="description"
-                  className="block mb-2 text-sm font-medium text-gray-900 "
-                >
+                <label className="block mb-2 text-sm font-medium text-gray-900 ">
                   Description
                 </label>
                 <textarea
-                  id="description"
+                  id="departmentDesc"
+                  value={department.departmentDesc}
+                  onChange={handleChange}
                   rows="4"
                   className="bg-gray-50 border text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 border-gray-500 placeholder-gray-400"
                   placeholder="Write your description"

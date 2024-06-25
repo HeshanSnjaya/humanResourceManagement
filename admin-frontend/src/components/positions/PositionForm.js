@@ -1,6 +1,39 @@
-import React from "react";
+import React, { useState } from "react";
+import { AddPosition } from "../../Services/PositionsAPi";
 
 const PositionForm = ({ closeModal }) => {
+  const [position, setPosition] = useState({
+    positionName: "",
+    positionDesc: "",
+  });
+
+  const handleChange = (e) => {
+    const { id, value } = e.target;
+    setPosition({
+      ...position,
+      [id]: value,
+    });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const requiredFields = ["positionName", "positionDesc"];
+
+    for (let field of requiredFields) {
+      if (!position[field]) {
+        alert(`Please fill the ${field} field.`);
+        return;
+      }
+    }
+    console.log("Form Data:", position);
+
+    try {
+      await AddPosition(position);
+    } catch (error) {
+      console.error("Login Error:", error);
+    }
+    closeModal();
+  };
   return (
     <div
       id="leave-form"
@@ -39,7 +72,7 @@ const PositionForm = ({ closeModal }) => {
             </button>
           </div>
           {/* Modal body */}
-          <form className="p-4 md:p-5">
+          <form className="p-4 md:p-5" onSubmit={handleSubmit}>
             <div className="grid gap-4 mb-4 grid-cols-2">
               {/* <div className="col-span-2 sm:col-span-1">
                 <label
@@ -75,20 +108,26 @@ const PositionForm = ({ closeModal }) => {
               </div> */}
 
               <div className="col-span-2 sm:col-span-1">
-                <label
-                  htmlFor="price"
-                  className="block mb-2 text-sm font-medium text-gray-900"
-                >
+                <label className="block mb-2 text-sm font-medium text-gray-900">
                   Position Name
                 </label>
                 <input
                   type="text"
-                  name="price"
-                  id="price"
+                  id="positionName"
                   className="bg-gray-50 border text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 border-gray-500 placeholder-gray-400"
-                  placeholder="Hr manager"
-                  required=""
+                  placeholder="Enter Position name"
+                  value={position.positionName}
+                  onChange={handleChange}
+                  required
                 />
+                {/* <input
+                  type="text"
+                  id="positionName"
+                  className="bg-gray-50 border text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 border-gray-500 placeholder-gray-400"
+                  placeholder="Hr department"
+                  value={position.positionName}
+                  required=""
+                /> */}
               </div>
 
               <div className="col-span-2">
@@ -99,10 +138,12 @@ const PositionForm = ({ closeModal }) => {
                   Description
                 </label>
                 <textarea
-                  id="description"
+                  id="positionDesc"
+                  value={position.positionDesc}
                   rows="4"
                   className="bg-gray-50 border text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 border-gray-500 placeholder-gray-400"
-                  placeholder="Write your description"
+                  placeholder="Enter your description"
+                  onChange={handleChange}
                 ></textarea>
               </div>
             </div>
