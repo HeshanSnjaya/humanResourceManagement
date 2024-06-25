@@ -1,5 +1,6 @@
 package com.hrm.human.resource.management.system.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.*;
@@ -46,14 +47,15 @@ public class User implements UserDetails {
     private Role role;
 
     @ManyToOne
-    @JoinColumn(name = "departmentId")
+    @JoinColumn(name = "fk_department_Id", referencedColumnName = "departmentId")
     private Department department;
 
     @ManyToOne
-    @JoinColumn(name = "positionId")
+    @JoinColumn(name = "fk_position_Id", referencedColumnName = "positionId")
     private Position position;
 
-    @OneToMany(mappedBy = "employee", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "employee", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonIgnore
     private List<Leave> leaves;
 
     @Override

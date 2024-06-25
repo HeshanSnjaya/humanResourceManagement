@@ -1,5 +1,6 @@
 package com.hrm.human.resource.management.system.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -22,9 +23,10 @@ public class Department {
     private String departmentDesc;
 
     @OneToMany(mappedBy = "department", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonIgnore
     private List<User> users;
 
     @ManyToOne
-    @JoinColumn(name = "departmentHeadId", referencedColumnName = "employeeId")
+    @JoinColumn(name = "fk_departmentHead_Id", referencedColumnName = "employeeId")
     private User departmentHead;
 }
