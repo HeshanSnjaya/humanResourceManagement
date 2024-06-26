@@ -138,8 +138,8 @@ export const AddNewEmployee = async (employee) => {
     employmentType: employee.employmentType,
     joinedDate: employee.joinedDate,
     role: employee.role,
-    department: parseInt(employee.department),
-    position: parseInt(employee.position),
+    departmentId: parseInt(employee.department),
+    positionId: parseInt(employee.position),
   };
   const Token = localStorage.getItem("token");
   const authAxios = axios.create({

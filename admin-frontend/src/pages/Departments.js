@@ -119,7 +119,7 @@ const Departments = () => {
                         <td className="px-6 py-4">
                           <div
                             className="bg-[#ed1b24] flex justify-center py-[5px] rounded-md"
-                            onClick={handleDeleteClick(dept.departmentId)}
+                            onClick={() => handleDeleteClick(dept.departmentId)}
                           >
                             Delete
                           </div>
