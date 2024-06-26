@@ -1,14 +1,17 @@
 package com.hrm.human.resource.management.system.service;
 
 import com.hrm.human.resource.management.system.dto.DepartmentDTO;
+import com.hrm.human.resource.management.system.dto.PositionDTO;
 import com.hrm.human.resource.management.system.dto.UserDTO;
 import com.hrm.human.resource.management.system.dto.UserUpdateRequestDTO;
 import com.hrm.human.resource.management.system.entity.Department;
+import com.hrm.human.resource.management.system.entity.Position;
 import com.hrm.human.resource.management.system.entity.ResponseMessage;
 import com.hrm.human.resource.management.system.entity.User;
+import com.hrm.human.resource.management.system.repository.DepartmentRepository;
+import com.hrm.human.resource.management.system.repository.PositionRepository;
 import com.hrm.human.resource.management.system.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,6 +24,10 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class UserService {
     private final UserRepository userRepository;
+    private final DepartmentRepository departmentRepository;
+
+    private final PositionRepository positionRepository;
+
 
     public Optional<User> getUserById(Long employeeId) {
         return userRepository.findById(employeeId);
@@ -64,6 +71,10 @@ public class UserService {
     }
 
     private void updateUserData(User user, UserUpdateRequestDTO request) {
+        Department department= departmentRepository.findById(request.getDepartmentId())
+                .orElseThrow(() -> new IllegalArgumentException("Department not found"));
+        Position position= positionRepository.findById(request.getDepartmentId())
+                .orElseThrow(() -> new IllegalArgumentException("Position not found"));
         if (request.getFirstName() != null) user.setFirstName(request.getFirstName());
         if (request.getLastName() != null) user.setLastName(request.getLastName());
         if (request.getMotherName() != null) user.setMotherName(request.getMotherName());
@@ -83,11 +94,25 @@ public class UserService {
         if (request.getJoinedDate() != null) user.setJoinedDate(request.getJoinedDate());
         if (request.getBasicSalary() != null) user.setBasicSalary(request.getBasicSalary());
         if (request.getRole() != null) user.setRole(request.getRole());
+        if (request.getDepartmentId() != null) {
+            user.setDepartment(department);
+        }
+        if (request.getPositionId() != null) {
+            user.setPosition(position);
+        }
     }
 
     public ResponseMessage deleteUserById(Long employeeId) {
         Optional<User> userOptional = getUserById(employeeId);
         if (userOptional.isPresent()) {
+
+            User user = userOptional.get();
+
+            departmentRepository.findByDepartmentHead(user).ifPresent(department -> {
+                department.setDepartmentHead(null);
+                departmentRepository.save(department);
+            });
+
             userRepository.deleteById(employeeId);
             return ResponseMessage.builder()
                     .message("User is deleted Successfully")
@@ -101,19 +126,66 @@ public class UserService {
         }
     }
 
+//    private UserDTO convertToDTO(User user) {
+//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+//        String dobString = user.getDob().format(formatter);
+//
+//        DepartmentDTO departmentDTO = null;
+//        if (user.getDepartment() != null) {
+//            Department department = user.getDepartment();
+//            departmentDTO = DepartmentDTO.builder()
+//                    .departmentId(department.getDepartmentId())
+//                    .departmentName(department.getDepartmentName())
+//                    .departmentDesc(department.getDepartmentDesc())
+//                    .build();
+//        }
+//
+//        return UserDTO.builder()
+//                .employeeId(user.getEmployeeId())
+//                .firstName(user.getFirstName())
+//                .lastName(user.getLastName())
+//                .gender(user.getGender())
+//                .workEmail(user.getWorkEmail())
+//                .mobilePhoneNo(user.getMobilePhoneNo())
+//                .employmentType(user.getEmploymentType())
+//                .joinedDate(user.getJoinedDate())
+//                .epfNo(user.getEpfNo())
+//                .dob(dobString)
+//                .maritalStatus(user.getMaritalStatus())
+//                .address(user.getAddress())
+//                .spouseName(user.getSpouseName())
+//                .fatherName(user.getFatherName())
+//                .motherName(user.getMotherName())
+//                .basicSalary(user.getBasicSalary())
+//                .nic(user.getNic())
+//                .homePhoneNo(user.getHomePhoneNo())
+//                .age(user.getAge())
+//                .department(departmentDTO)
+//                .build();
+//    }
     private UserDTO convertToDTO(User user) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         String dobString = user.getDob().format(formatter);
 
-        DepartmentDTO departmentDTO = null;
-        if (user.getDepartment() != null) {
-            Department department = user.getDepartment();
-            departmentDTO = DepartmentDTO.builder()
-                    .departmentId(department.getDepartmentId())
-                    .departmentName(department.getDepartmentName())
-                    .departmentDesc(department.getDepartmentDesc())
-                    .build();
-        }
+//        DepartmentDTO departmentDTO = null;
+//        if (user.getDepartment() != null) {
+//            Department department = user.getDepartment();
+//            departmentDTO = DepartmentDTO.builder()
+//                    .departmentId(department.getDepartmentId())
+//                    .departmentName(department.getDepartmentName())
+//                    .departmentDesc(department.getDepartmentDesc())
+//                    .build();
+//        }
+//
+//        PositionDTO positionDTO = null;
+//        if (user.getPosition() != null) {
+//            Position position = user.getPosition();
+//            positionDTO = PositionDTO.builder()
+//                    .positionId(position.getPositionId())
+//                    .positionName(position.getPositionName())
+//                    .positionDesc(position.getPositionDesc())
+//                    .build();
+//        }
 
         return UserDTO.builder()
                 .employeeId(user.getEmployeeId())
@@ -135,7 +207,8 @@ public class UserService {
                 .nic(user.getNic())
                 .homePhoneNo(user.getHomePhoneNo())
                 .age(user.getAge())
-                .department(departmentDTO)
+                .positionId(user.getPosition().getPositionId())
+                .departmentId(user.getDepartment().getDepartmentId())
                 .build();
     }
 }
