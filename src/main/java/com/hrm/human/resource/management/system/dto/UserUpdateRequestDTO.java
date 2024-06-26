@@ -27,4 +27,6 @@ public class UserUpdateRequestDTO {
     private Date joinedDate;
     private Float basicSalary;
     private Role role;
+    private Long departmentId;
+    private Long positionId;
 }
