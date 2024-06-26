@@ -43,8 +43,8 @@ public class DepartmentController {
     }
 
     @GetMapping("/all")
-    public ResponseEntity<List<Department>> getAllDepartments() {
-        List<Department> departments = departmentService.getAllDepartments();
+    public ResponseEntity<List<DepartmentDTO>> getAllDepartments() {
+        List<DepartmentDTO> departments = departmentService.getAllDepartments();
         if (!departments.isEmpty()) {
             return ResponseEntity.ok(departments);
         } else {
