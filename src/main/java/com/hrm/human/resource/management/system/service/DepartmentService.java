@@ -2,6 +2,7 @@ package com.hrm.human.resource.management.system.service;
 
 import com.hrm.human.resource.management.system.dto.DepartmentAddRequestDTO;
 import com.hrm.human.resource.management.system.dto.DepartmentDTO;
+import com.hrm.human.resource.management.system.dto.UserDTO;
 import com.hrm.human.resource.management.system.entity.Department;
 import com.hrm.human.resource.management.system.entity.ResponseMessage;
 import com.hrm.human.resource.management.system.entity.User;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -50,8 +52,10 @@ public class DepartmentService {
     }
 
     @Transactional(readOnly = true)
-    public List<Department> getAllDepartments() {
-        return departmentRepository.findAll();
+    public List<DepartmentDTO> getAllDepartments() {
+        return departmentRepository.findAll().stream()
+                .map(this::convertToDTO)
+                .collect(Collectors.toList());
     }
 
     @Transactional
@@ -90,5 +94,15 @@ public class DepartmentService {
                     .message("Failed to delete department: " + e.getMessage())
                     .build();
         }
+    }
+
+    private DepartmentDTO convertToDTO(Department department){
+
+        return DepartmentDTO.builder()
+                .departmentId(department.getDepartmentId())
+                .departmentName(department.getDepartmentName())
+                .departmentDesc(department.getDepartmentDesc())
+                .departmentHeadId(department.getDepartmentHead().getEmployeeId())
+                .build();
     }
 }

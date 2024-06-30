@@ -125,67 +125,9 @@ public class UserService {
                     .build();
         }
     }
-
-//    private UserDTO convertToDTO(User user) {
-//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-//        String dobString = user.getDob().format(formatter);
-//
-//        DepartmentDTO departmentDTO = null;
-//        if (user.getDepartment() != null) {
-//            Department department = user.getDepartment();
-//            departmentDTO = DepartmentDTO.builder()
-//                    .departmentId(department.getDepartmentId())
-//                    .departmentName(department.getDepartmentName())
-//                    .departmentDesc(department.getDepartmentDesc())
-//                    .build();
-//        }
-//
-//        return UserDTO.builder()
-//                .employeeId(user.getEmployeeId())
-//                .firstName(user.getFirstName())
-//                .lastName(user.getLastName())
-//                .gender(user.getGender())
-//                .workEmail(user.getWorkEmail())
-//                .mobilePhoneNo(user.getMobilePhoneNo())
-//                .employmentType(user.getEmploymentType())
-//                .joinedDate(user.getJoinedDate())
-//                .epfNo(user.getEpfNo())
-//                .dob(dobString)
-//                .maritalStatus(user.getMaritalStatus())
-//                .address(user.getAddress())
-//                .spouseName(user.getSpouseName())
-//                .fatherName(user.getFatherName())
-//                .motherName(user.getMotherName())
-//                .basicSalary(user.getBasicSalary())
-//                .nic(user.getNic())
-//                .homePhoneNo(user.getHomePhoneNo())
-//                .age(user.getAge())
-//                .department(departmentDTO)
-//                .build();
-//    }
     private UserDTO convertToDTO(User user) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         String dobString = user.getDob().format(formatter);
-
-//        DepartmentDTO departmentDTO = null;
-//        if (user.getDepartment() != null) {
-//            Department department = user.getDepartment();
-//            departmentDTO = DepartmentDTO.builder()
-//                    .departmentId(department.getDepartmentId())
-//                    .departmentName(department.getDepartmentName())
-//                    .departmentDesc(department.getDepartmentDesc())
-//                    .build();
-//        }
-//
-//        PositionDTO positionDTO = null;
-//        if (user.getPosition() != null) {
-//            Position position = user.getPosition();
-//            positionDTO = PositionDTO.builder()
-//                    .positionId(position.getPositionId())
-//                    .positionName(position.getPositionName())
-//                    .positionDesc(position.getPositionDesc())
-//                    .build();
-//        }
 
         return UserDTO.builder()
                 .employeeId(user.getEmployeeId())
