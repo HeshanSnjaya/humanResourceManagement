@@ -9,11 +9,17 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "educationalQualification")
+@Table(name = "educational_qualification")
 public class EducationalQualification {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long qualificationId;
+    private String courseName;
     private String qualificationDesc;
-    private String institute;
+    private Integer year;
+    private String instituteName;
+
+    @ManyToOne
+    @JoinColumn(name = "employeeId")
+    private User employee;
 }

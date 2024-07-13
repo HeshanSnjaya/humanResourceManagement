@@ -102,7 +102,7 @@ public class DepartmentService {
                 .departmentId(department.getDepartmentId())
                 .departmentName(department.getDepartmentName())
                 .departmentDesc(department.getDepartmentDesc())
-                .departmentHeadId(department.getDepartmentHead().getEmployeeId())
+                .departmentHeadName(department.getDepartmentHead().getFirstName()+ " "+ department.getDepartmentHead().getLastName())
                 .build();
     }
 }

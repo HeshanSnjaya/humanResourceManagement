@@ -11,6 +11,8 @@ import com.hrm.human.resource.management.system.repository.DepartmentRepository;
 import com.hrm.human.resource.management.system.repository.PositionRepository;
 import com.hrm.human.resource.management.system.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.AuthenticationException;
@@ -143,7 +145,7 @@ public class AuthenticationService {
 
     }
 
-    public AuthenticationResponse authenticate(AuthenticationRequest request) {
+    public ResponseEntity authenticate(AuthenticationRequest request) {
         try {
             authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
@@ -156,15 +158,19 @@ public class AuthenticationService {
                     .orElseThrow();
             var jwtToken = jwtService.generateToken(user);
 
-            return AuthenticationResponse.builder()
+            AuthenticationResponse response = AuthenticationResponse.builder()
                     .token(jwtToken)
                     .message("User is valid")
                     .userId(user.getEmployeeId())
                     .build();
+
+            return ResponseEntity.ok(response);
         } catch (AuthenticationException ex) {
-            return AuthenticationResponse.builder()
+            AuthenticationResponse response = AuthenticationResponse.builder()
                     .message("Email or Password is incorrect")
                     .build();
+
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
         }
     }
 
