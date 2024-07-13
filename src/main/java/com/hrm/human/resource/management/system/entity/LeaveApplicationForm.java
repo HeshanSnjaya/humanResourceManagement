@@ -21,6 +21,6 @@ public class LeaveApplicationForm {
     private String approvedStatus;
     private Date startDate;
     private Date endDate;
-    private String laveTypeName;
+    private String leaveTypeName;
     private String immediateSupervisorApprovalStatus;
 }
