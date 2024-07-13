@@ -54,17 +54,21 @@ public class User implements UserDetails {
     @JoinColumn(name = "fk_position_Id", referencedColumnName = "positionId")
     private Position position;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "employee", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonIgnore
-    private List<Leave> leaves;
+    private List<UserLeave> userLeaves;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "employee", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonIgnore
     private List<EducationalQualification> educationalQualifications;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "employee", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonIgnore
     private List<WorkExperience> workExperiences;
+
+    @OneToMany(mappedBy = "employee", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonIgnore
+    private List<LeaveApplicationForm> leaveApplicationForms;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

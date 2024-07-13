@@ -5,23 +5,24 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
-
 @Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "work_experience")
-public class WorkExperience {
+@Table(name = "user_leave")
+public class UserLeave {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long experienceId;
-    private String companyName;
-    private String designation;
-    private Date startDate;
-    private Date endDate;
+    private Long userLeaveId;
 
     @ManyToOne
     @JoinColumn(name = "employeeId")
     private User employee;
+
+    @ManyToOne
+    @JoinColumn(name = "leaveId")
+    private Leave leave;
+
+    private Integer noOfLeaves;
 }

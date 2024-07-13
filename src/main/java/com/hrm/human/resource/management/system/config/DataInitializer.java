@@ -1,10 +1,8 @@
 package com.hrm.human.resource.management.system.config;
 
-import com.hrm.human.resource.management.system.entity.Department;
-import com.hrm.human.resource.management.system.entity.Position;
-import com.hrm.human.resource.management.system.entity.Role;
-import com.hrm.human.resource.management.system.entity.User;
+import com.hrm.human.resource.management.system.entity.*;
 import com.hrm.human.resource.management.system.repository.DepartmentRepository;
+import com.hrm.human.resource.management.system.repository.LeaveRepository;
 import com.hrm.human.resource.management.system.repository.PositionRepository;
 import com.hrm.human.resource.management.system.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +21,13 @@ public class DataInitializer {
     private final UserRepository userRepository;
     private final DepartmentRepository departmentRepository;
     private final PositionRepository positionRepository;
+
+    private final LeaveRepository leaveRepository;
+
+//    private final UserLeave userLeave;
+//
+//    private final WorkExperience workExperience;
+
 
     @Bean
     public ApplicationRunner initializer() {
@@ -46,6 +51,20 @@ public class DataInitializer {
                         .build();
 
                 positionRepository.saveAll(Arrays.asList(developer, manager, analyst, tester));
+            }
+
+            if(leaveRepository.count() ==0){
+                Leave leave1 = Leave.builder()
+                        .leaveTypeName("Annual")
+                        .noOfLeaves(14)
+                        .build();
+                Leave leave2 = Leave.builder()
+                        .leaveTypeName("Casual")
+                        .noOfLeaves(7)
+                        .build();
+
+                leaveRepository.saveAll(Arrays.asList(leave1, leave2));
+
             }
 
             if (departmentRepository.count() == 0) {
