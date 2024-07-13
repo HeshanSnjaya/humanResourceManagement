@@ -1,27 +1,19 @@
-package com.hrm.human.resource.management.system.entity;
+package com.hrm.human.resource.management.system.dto;
 
-import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
 
-@Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "workExperience")
-public class WorkExperience {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class WorkExperienceDTO {
     private Long experienceId;
     private String companyName;
     private String designation;
     private Date startDate;
     private Date endDate;
-
-    @ManyToOne
-    @JoinColumn(name = "employeeId")
-    private User employee;
+    private Long employeeId;
 }
