@@ -1,6 +1,7 @@
 package com.hrm.human.resource.management.system.service;
 
 import com.hrm.human.resource.management.system.dto.AddUserLeaveTypeDTO;
+import com.hrm.human.resource.management.system.dto.LeaveDTO;
 import com.hrm.human.resource.management.system.entity.Leave;
 import com.hrm.human.resource.management.system.entity.ResponseMessage;
 import com.hrm.human.resource.management.system.entity.User;
@@ -10,6 +11,9 @@ import com.hrm.human.resource.management.system.repository.UserLeaveRepository;
 import com.hrm.human.resource.management.system.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -34,5 +38,18 @@ public class UserLeaveService {
         return ResponseMessage.builder()
                 .message("Leave type assigned successfully to employee")
                 .build();
+    }
+
+    public List<LeaveDTO> getLeaveTypesForEmployee(Long employeeId) {
+        User employee = userRepository.findById(employeeId)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        List<UserLeave> userLeaves = userLeaveRepository.findByEmployee(employee);
+
+        return userLeaves.stream().map(userLeave -> LeaveDTO.builder()
+                .employeeId(employee.getEmployeeId())
+                .leaveTypeName(userLeave.getLeave().getLeaveTypeName())
+                .noOfLeaves(userLeave.getNoOfLeaves())
+                .build()).collect(Collectors.toList());
     }
 }

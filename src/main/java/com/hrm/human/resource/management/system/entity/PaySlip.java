@@ -1,5 +1,6 @@
 package com.hrm.human.resource.management.system.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -25,7 +26,9 @@ public class PaySlip {
     private Float employeeEpfAmount;
     private Float employerEpfAmount;
     private Float employerEtfAmount;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Date payDate;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Date issuedDate;
     private String month;
 

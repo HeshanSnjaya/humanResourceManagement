@@ -1,5 +1,6 @@
 package com.hrm.human.resource.management.system.controller;
 
+import com.hrm.human.resource.management.system.dto.PaySlipDTO;
 import com.hrm.human.resource.management.system.entity.PaySlip;
 import com.hrm.human.resource.management.system.entity.User;
 import com.hrm.human.resource.management.system.service.PaySlipService;
@@ -27,15 +28,15 @@ public class PaySlipController {
     }
 
     @GetMapping("/employee/{employeeId}")
-    public ResponseEntity<List<PaySlip>> getAllPayslipsForEmployee(@PathVariable Long employeeId) {
+    public ResponseEntity<List<PaySlipDTO>> getAllPayslipsForEmployee(@PathVariable Long employeeId) {
         Optional<User> employee = userService.getUserById(employeeId);
-        List<PaySlip> paySlips = paySlipService.getAllPayslipsForEmployee(employee);
+        List<PaySlipDTO> paySlips = paySlipService.getAllPayslipsForEmployee(employee);
         return ResponseEntity.ok(paySlips);
     }
 
     @GetMapping("/{paySlipId}")
-    public ResponseEntity<PaySlip> getPayslipById(@PathVariable Long paySlipId) {
-        PaySlip paySlip = paySlipService.getPayslipById(paySlipId);
+    public ResponseEntity<PaySlipDTO> getPayslipById(@PathVariable Long paySlipId) {
+        PaySlipDTO paySlip = paySlipService.getPayslipById(paySlipId);
         return ResponseEntity.ok(paySlip);
     }
 }
