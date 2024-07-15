@@ -9,11 +9,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class EducationalQualificationDTO {
-    private Long qualificationId;
-    private String courseName;
-    private String qualificationDesc;
-    private Integer year;
-    private String instituteName;
+public class UserBonusAddRequestDTO {
+    private Long bonusId;
     private Long employeeId;
+    private String month;
+    private Float bonusAmount;
 }

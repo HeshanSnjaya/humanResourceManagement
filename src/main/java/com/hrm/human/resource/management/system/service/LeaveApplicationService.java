@@ -1,18 +1,22 @@
 package com.hrm.human.resource.management.system.service;
 
 import com.hrm.human.resource.management.system.dto.LeaveApplicationDTO;
+import com.hrm.human.resource.management.system.dto.LeaveApplicationReturnDTO;
 import com.hrm.human.resource.management.system.entity.*;
 import com.hrm.human.resource.management.system.repository.LeaveApplicationRepository;
 import com.hrm.human.resource.management.system.repository.LeaveRepository;
 import com.hrm.human.resource.management.system.repository.UserLeaveRepository;
 import com.hrm.human.resource.management.system.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
+@Slf4j
 @RequiredArgsConstructor
 public class LeaveApplicationService {
 
@@ -22,7 +26,7 @@ public class LeaveApplicationService {
     private final UserRepository userRepository;
 
     @Transactional
-    public ResponseMessage applyForLeave(LeaveApplicationDTO leaveApplicationDTO) {
+    public LeaveApplicationReturnDTO applyForLeave(LeaveApplicationDTO leaveApplicationDTO) {
         User employee = userRepository.findById(leaveApplicationDTO.getEmployeeId())
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
@@ -30,9 +34,7 @@ public class LeaveApplicationService {
                 .orElseThrow(() -> new RuntimeException("Leave type not found"));
 
         if (leaveApplicationDTO.getNoOfDays() > leave.getNoOfLeaves()) {
-            return ResponseMessage.builder()
-                    .message("Exceeded number of allowed leaves")
-                    .build();
+            throw new RuntimeException("Exceeded number of allowed leaves");
         }
 
         LeaveApplicationForm leaveApplication = new LeaveApplicationForm();
@@ -48,9 +50,7 @@ public class LeaveApplicationService {
 
         updateUserLeave(employee.getEmployeeId(), leave.getLeaveId(), leaveApplicationDTO.getNoOfDays());
 
-        return ResponseMessage.builder()
-                .message("Leave application submitted successfully")
-                .build();
+        return mapToReturnDTO(leaveApplication);
     }
 
     private void updateUserLeave(Long employeeId, Long leaveTypeId, Integer requestedDays) {
@@ -67,8 +67,19 @@ public class LeaveApplicationService {
     }
 
     @Transactional
-    public List<LeaveApplicationForm> getLeaveApplicationFormsByEmployeeId(Long employeeId) {
-        return leaveApplicationRepository.findByEmployee_EmployeeIdAndApprovedStatus(employeeId, "Confirmed");
+    public List<LeaveApplicationReturnDTO> getLeaveApplicationFormsByEmployeeId(Long employeeId) {
+        List<LeaveApplicationForm> leaveApplicationForms = leaveApplicationRepository.findByEmployee_EmployeeId(employeeId);
+        return leaveApplicationForms.stream()
+                .map(this::mapToReturnDTO)
+                .collect(Collectors.toList());
+    }
+
+    @Transactional
+    public List<LeaveApplicationReturnDTO> getApprovedLeaveApplicationFormsByEmployeeId(Long employeeId) {
+        List<LeaveApplicationForm> leaveApplicationForms = leaveApplicationRepository.findByEmployee_EmployeeIdAndApprovedStatus(employeeId, "Approved");
+        return leaveApplicationForms.stream()
+                .map(this::mapToReturnDTO)
+                .collect(Collectors.toList());
     }
 
     @Transactional
@@ -81,6 +92,19 @@ public class LeaveApplicationService {
 
         return ResponseMessage.builder()
                 .message("Approval status updated successfully")
+                .build();
+    }
+
+    public LeaveApplicationReturnDTO mapToReturnDTO(LeaveApplicationForm leaveApplicationForm) {
+        return LeaveApplicationReturnDTO.builder()
+                .employeeId(leaveApplicationForm.getEmployee().getEmployeeId())
+                .leaveApplicationFormId(leaveApplicationForm.getLeaveApplicationFormId())
+                .leaveTypeName(leaveApplicationForm.getLeave().getLeaveTypeName())
+                .noOfDays(leaveApplicationForm.getNoOfDays())
+                .startDate(leaveApplicationForm.getStartDate())
+                .endDate(leaveApplicationForm.getEndDate())
+                .reason(leaveApplicationForm.getReason())
+                .approvedStatus(leaveApplicationForm.getApprovedStatus())
                 .build();
     }
 }

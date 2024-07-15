@@ -149,8 +149,8 @@ public class UserService {
                 .nic(user.getNic())
                 .homePhoneNo(user.getHomePhoneNo())
                 .age(user.getAge())
-                .positionId(user.getPosition().getPositionId())
-                .departmentId(user.getDepartment().getDepartmentId())
+                .positionName(user.getPosition().getPositionName())
+                .departmentName(user.getDepartment().getDepartmentName())
                 .build();
     }
 }
