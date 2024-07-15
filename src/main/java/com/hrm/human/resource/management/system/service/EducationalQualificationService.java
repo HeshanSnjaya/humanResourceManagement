@@ -20,6 +20,32 @@ public class EducationalQualificationService {
     private final UserRepository userRepository;
 
     @Transactional
+    public ResponseMessage addQualification(EducationalQualificationDTO qualificationDTO) {
+        try {
+            User user = userRepository.findById(qualificationDTO.getEmployeeId())
+                    .orElseThrow(() -> new RuntimeException("User not found"));
+
+            EducationalQualification qualification = EducationalQualification.builder()
+                    .courseName(qualificationDTO.getCourseName())
+                    .qualificationDesc(qualificationDTO.getQualificationDesc())
+                    .year(qualificationDTO.getYear())
+                    .instituteName(qualificationDTO.getInstituteName())
+                    .employee(user)
+                    .build();
+
+            qualificationRepository.save(qualification);
+
+            return ResponseMessage.builder()
+                    .message("Qualification added successfully")
+                    .build();
+        } catch (Exception e) {
+            return ResponseMessage.builder()
+                    .message("Failed to add qualification: " + e.getMessage())
+                    .build();
+        }
+    }
+
+    @Transactional
     public ResponseMessage deleteQualification(Long qualificationId) {
         try {
             qualificationRepository.deleteById(qualificationId);
@@ -72,7 +98,8 @@ public class EducationalQualificationService {
                 qualification.getCourseName(),
                 qualification.getQualificationDesc(),
                 qualification.getYear(),
-                qualification.getInstituteName()
+                qualification.getInstituteName(),
+                qualification.getEmployee().getEmployeeId()
         );
     }
 }

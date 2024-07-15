@@ -1,5 +1,6 @@
 package com.hrm.human.resource.management.system.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -21,7 +22,9 @@ public class LeaveApplicationForm {
     private Integer noOfDays;
     private String reason;
     private String approvedStatus = "Pending";
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Date startDate;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Date endDate;
 
     @PrePersist

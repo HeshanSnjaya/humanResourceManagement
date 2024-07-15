@@ -10,5 +10,7 @@ import java.util.Optional;
 @Repository
 public interface LeaveApplicationRepository extends JpaRepository<LeaveApplicationForm,Long> {
 
-    List<LeaveApplicationForm> findByEmployee_EmployeeIdAndApprovedStatus(Long employeeId,String approvedStatus);
+    List<LeaveApplicationForm> findByEmployee_EmployeeIdAndApprovedStatus(Long employeeId, String approvedStatus);
+    List<LeaveApplicationForm> findByEmployee_EmployeeId(Long employeeId);
+
 }

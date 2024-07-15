@@ -10,11 +10,16 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/qualifications")
+@RequestMapping("/api/v1/qualification")
 @RequiredArgsConstructor
 public class EducationalQualificationController {
 
     private final EducationalQualificationService qualificationService;
+
+    @PostMapping
+    public ResponseEntity<ResponseMessage> addQualification(@RequestBody EducationalQualificationDTO qualificationDTO) {
+        return ResponseEntity.ok(qualificationService.addQualification(qualificationDTO));
+    }
 
     @DeleteMapping("/{qualificationId}")
     public ResponseEntity<ResponseMessage> deleteQualification(@PathVariable Long qualificationId) {

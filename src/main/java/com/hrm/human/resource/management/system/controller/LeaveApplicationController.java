@@ -1,6 +1,7 @@
 package com.hrm.human.resource.management.system.controller;
 
 import com.hrm.human.resource.management.system.dto.LeaveApplicationDTO;
+import com.hrm.human.resource.management.system.dto.LeaveApplicationReturnDTO;
 import com.hrm.human.resource.management.system.entity.LeaveApplicationForm;
 import com.hrm.human.resource.management.system.entity.ResponseMessage;
 import com.hrm.human.resource.management.system.service.LeaveApplicationService;
@@ -12,21 +13,27 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/leave-Application")
+@RequestMapping("/api/leave-application")
 @RequiredArgsConstructor
 public class LeaveApplicationController {
 
     private final LeaveApplicationService leaveApplicationService;
 
+    @GetMapping("/employee/{employeeId}/leave-applications")
+    public ResponseEntity<List<LeaveApplicationReturnDTO>> getLeaveApplicationsByEmployeeId(@PathVariable Long employeeId) {
+        List<LeaveApplicationReturnDTO> leaveApplicationForms = leaveApplicationService.getLeaveApplicationFormsByEmployeeId(employeeId);
+        return ResponseEntity.ok(leaveApplicationForms);
+    }
+
     @PostMapping("/apply")
-    public ResponseEntity<ResponseMessage> applyForLeave(@RequestBody LeaveApplicationDTO leaveApplicationDTO) {
-        ResponseMessage responseMessage = leaveApplicationService.applyForLeave(leaveApplicationDTO);
-        return ResponseEntity.status(HttpStatus.CREATED).body(responseMessage);
+    public ResponseEntity<LeaveApplicationReturnDTO> applyForLeave(@RequestBody LeaveApplicationDTO leaveApplicationDTO) {
+        LeaveApplicationReturnDTO leaveApplicationReturnDTO = leaveApplicationService.applyForLeave(leaveApplicationDTO);
+        return ResponseEntity.status(HttpStatus.CREATED).body(leaveApplicationReturnDTO);
     }
 
     @GetMapping("/employee/{employeeId}/confirmed")
-    public ResponseEntity<List<LeaveApplicationForm>> getConfirmedLeaveApplications(@PathVariable Long employeeId) {
-        List<LeaveApplicationForm> leaveApplicationForms = leaveApplicationService.getLeaveApplicationFormsByEmployeeId(employeeId);
+    public ResponseEntity<List<LeaveApplicationReturnDTO>> getConfirmedLeaveApplications(@PathVariable Long employeeId) {
+        List<LeaveApplicationReturnDTO> leaveApplicationForms = leaveApplicationService.getApprovedLeaveApplicationFormsByEmployeeId(employeeId);
         return ResponseEntity.ok(leaveApplicationForms);
     }
 

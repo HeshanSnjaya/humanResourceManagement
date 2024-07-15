@@ -9,17 +9,19 @@ import lombok.NoArgsConstructor;
 @Entity
 @Data
 @NoArgsConstructor
-@Builder
 @AllArgsConstructor
-@Table(name = "educational_qualification")
-public class EducationalQualification {
+@Builder
+@Table(name = "user_bonus")
+public class UserBonus {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long qualificationId;
-    private String courseName;
-    private String qualificationDesc;
-    private Integer year;
-    private String instituteName;
+    private Long userBonusId;
+    private String month;
+
+    @ManyToOne
+    @JoinColumn(name = "bonusId")
+    private Bonus bonus;
 
     @ManyToOne
     @JoinColumn(name = "employeeId")

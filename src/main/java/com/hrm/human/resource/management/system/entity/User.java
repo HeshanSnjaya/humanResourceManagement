@@ -70,6 +70,14 @@ public class User implements UserDetails {
     @JsonIgnore
     private List<LeaveApplicationForm> leaveApplicationForms;
 
+    @OneToMany(mappedBy = "employee", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonIgnore
+    private List<PaySlip> paySlips;
+
+    @OneToMany(mappedBy = "employee", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonIgnore
+    private List<Attendance> attendances;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return role.getAuthorities();
