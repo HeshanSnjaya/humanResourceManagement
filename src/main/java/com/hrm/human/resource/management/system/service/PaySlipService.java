@@ -1,5 +1,6 @@
 package com.hrm.human.resource.management.system.service;
 
+import com.hrm.human.resource.management.system.dto.PaySlipDTO;
 import com.hrm.human.resource.management.system.entity.PaySlip;
 import com.hrm.human.resource.management.system.entity.User;
 import com.hrm.human.resource.management.system.entity.UserBonus;
@@ -15,6 +16,7 @@ import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -77,11 +79,31 @@ public class PaySlipService {
         }
     }
 
-    public List<PaySlip> getAllPayslipsForEmployee(Optional<User> employee) {
-        return paySlipRepository.findByEmployee(employee);
+    public List<PaySlipDTO> getAllPayslipsForEmployee(Optional<User> employee) {
+        return paySlipRepository.findByEmployee(employee).stream()
+                .map(this::convertToDto)
+                .collect(Collectors.toList());
     }
 
-    public PaySlip getPayslipById(Long paySlipId) {
-        return paySlipRepository.findByPaySlipId(paySlipId);
+    public PaySlipDTO getPayslipById(Long paySlipId) {
+        PaySlip paySlip = paySlipRepository.findByPaySlipId(paySlipId);
+        return convertToDto(paySlip);
+    }
+
+    private PaySlipDTO convertToDto(PaySlip paySlip) {
+        return PaySlipDTO.builder()
+                .paySlipId(paySlip.getPaySlipId())
+                .employeeId(paySlip.getEmployee().getEmployeeId())
+                .grossAmount(paySlip.getGrossAmount())
+                .netAmount(paySlip.getNetAmount())
+                .basicAmount(paySlip.getBasicAmount())
+                .totalBonus(paySlip.getTotalBonus())
+                .employeeEpfAmount(paySlip.getEmployeeEpfAmount())
+                .employerEpfAmount(paySlip.getEmployerEpfAmount())
+                .employerEtfAmount(paySlip.getEmployerEtfAmount())
+                .payDate(paySlip.getPayDate())
+                .issuedDate(paySlip.getIssuedDate())
+                .month(paySlip.getMonth())
+                .build();
     }
 }
