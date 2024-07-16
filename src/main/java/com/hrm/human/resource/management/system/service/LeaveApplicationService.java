@@ -87,12 +87,29 @@ public class LeaveApplicationService {
         LeaveApplicationForm leaveApplicationForm = leaveApplicationRepository.findById(leaveApplicationFormId)
                 .orElseThrow(() -> new RuntimeException("Leave application form not found"));
 
-        leaveApplicationForm.setApprovedStatus(newStatus);
+        if ("Approved".equalsIgnoreCase(newStatus)) {
+            leaveApplicationForm.setApprovedStatus("Approved");
+        } else if ("Rejected".equalsIgnoreCase(newStatus)) {
+            leaveApplicationForm.setApprovedStatus("Rejected");
+            updateRejectedLeave(leaveApplicationForm);
+        } else {
+            throw new RuntimeException("Invalid status");
+        }
         leaveApplicationRepository.save(leaveApplicationForm);
 
         return ResponseMessage.builder()
                 .message("Approval status updated successfully")
                 .build();
+    }
+
+    private void updateRejectedLeave(LeaveApplicationForm leaveApplicationForm) {
+        UserLeave userLeave = userLeaveRepository.findUserLeaveByEmployee_EmployeeIdAndLeave_LeaveId(
+                        leaveApplicationForm.getEmployee().getEmployeeId(),
+                        leaveApplicationForm.getLeave().getLeaveId())
+                .orElseThrow(() -> new RuntimeException("User leave not found"));
+
+        userLeave.setNoOfLeaves(userLeave.getNoOfLeaves() + leaveApplicationForm.getNoOfDays());
+        userLeaveRepository.save(userLeave);
     }
 
     public LeaveApplicationReturnDTO mapToReturnDTO(LeaveApplicationForm leaveApplicationForm) {
