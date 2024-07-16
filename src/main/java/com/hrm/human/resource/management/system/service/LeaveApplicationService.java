@@ -123,6 +123,7 @@ public class LeaveApplicationService {
     public LeaveApplicationReturnDTO mapToReturnDTO(LeaveApplicationForm leaveApplicationForm) {
         return LeaveApplicationReturnDTO.builder()
                 .employeeId(leaveApplicationForm.getEmployee().getEmployeeId())
+                .employeeName(leaveApplicationForm.getEmployee().getFirstName()+" "+leaveApplicationForm.getEmployee().getLastName())
                 .leaveApplicationFormId(leaveApplicationForm.getLeaveApplicationFormId())
                 .leaveTypeName(leaveApplicationForm.getLeave().getLeaveTypeName())
                 .noOfDays(leaveApplicationForm.getNoOfDays())
