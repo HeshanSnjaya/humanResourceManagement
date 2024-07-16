@@ -1,21 +1,16 @@
-package com.hrm.human.resource.management.system.entity;
+package com.hrm.human.resource.management.system.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
 
-@Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "work_experience")
-public class WorkExperience {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class WorkExperienceDTO {
     private Long experienceId;
     private String companyName;
     private String designation;
@@ -23,8 +18,5 @@ public class WorkExperience {
     private Date startDate;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Date endDate;
-
-    @ManyToOne
-    @JoinColumn(name = "employeeId")
-    private User employee;
+    private Long employeeId;
 }

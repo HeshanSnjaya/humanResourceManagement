@@ -34,6 +34,6 @@ public class UserDTO {
     private String employmentType;
     private Date joinedDate;
     private Float basicSalary;
-    private Long departmentId;
-    private Long positionId;
+    private String departmentName;
+    private String positionName;
 }

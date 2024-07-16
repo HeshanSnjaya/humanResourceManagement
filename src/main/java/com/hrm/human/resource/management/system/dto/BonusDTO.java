@@ -9,9 +9,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class DepartmentDTO {
-    private Long departmentId;
-    private String departmentName;
-    private String departmentDesc;
-    private String departmentHeadName;
+public class BonusDTO {
+    private Long bonusId;
+    private Float bonusAmount;
+    private String bonusTypeName;
 }

@@ -1,16 +1,13 @@
 package com.hrm.human.resource.management.system.auth;
 
 import com.hrm.human.resource.management.system.config.JwtService;
-import com.hrm.human.resource.management.system.entity.Department;
-import com.hrm.human.resource.management.system.entity.Position;
-import com.hrm.human.resource.management.system.entity.ResponseMessage;
-import com.hrm.human.resource.management.system.entity.User;
+import com.hrm.human.resource.management.system.entity.*;
 import com.hrm.human.resource.management.system.exception.EmailAlreadyExistException;
 import com.hrm.human.resource.management.system.exception.EmailOrPasswordIncorrectException;
-import com.hrm.human.resource.management.system.repository.DepartmentRepository;
-import com.hrm.human.resource.management.system.repository.PositionRepository;
-import com.hrm.human.resource.management.system.repository.UserRepository;
+import com.hrm.human.resource.management.system.repository.*;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.AuthenticationException;
@@ -19,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.Period;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -29,6 +27,11 @@ public class AuthenticationService {
     private final DepartmentRepository departmentRepository;
 
     private final PositionRepository positionRepository;
+
+    private final LeaveRepository leaveRepository;
+
+    private final UserLeaveRepository userLeaveRepository;
+
 
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
@@ -132,6 +135,8 @@ public class AuthenticationService {
 
             userRepository.save(user);
 
+            assignDefaultLeaveTypes(user);
+
             return ResponseMessage.builder()
                     .message("User registered successfully")
                     .build();
@@ -143,7 +148,23 @@ public class AuthenticationService {
 
     }
 
-    public AuthenticationResponse authenticate(AuthenticationRequest request) {
+    private void assignDefaultLeaveTypes(User user) {
+        List<Long> defaultLeaveIds = List.of(1L, 2L);
+
+        for (Long leaveId : defaultLeaveIds) {
+            Leave leave = leaveRepository.findById(leaveId)
+                    .orElseThrow(() -> new RuntimeException("Leave type not found"));
+
+            UserLeave userLeave = new UserLeave();
+            userLeave.setEmployee(user);
+            userLeave.setLeave(leave);
+            userLeave.setNoOfLeaves(leave.getNoOfLeaves());
+
+            userLeaveRepository.save(userLeave);
+        }
+    }
+
+    public ResponseEntity authenticate(AuthenticationRequest request) {
         try {
             authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
@@ -156,15 +177,19 @@ public class AuthenticationService {
                     .orElseThrow();
             var jwtToken = jwtService.generateToken(user);
 
-            return AuthenticationResponse.builder()
+            AuthenticationResponse response = AuthenticationResponse.builder()
                     .token(jwtToken)
                     .message("User is valid")
                     .userId(user.getEmployeeId())
                     .build();
+
+            return ResponseEntity.ok(response);
         } catch (AuthenticationException ex) {
-            return AuthenticationResponse.builder()
+            AuthenticationResponse response = AuthenticationResponse.builder()
                     .message("Email or Password is incorrect")
                     .build();
+
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
         }
     }
 

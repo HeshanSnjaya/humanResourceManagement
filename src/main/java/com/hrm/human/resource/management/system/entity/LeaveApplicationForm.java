@@ -1,11 +1,14 @@
 package com.hrm.human.resource.management.system.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Data
@@ -18,9 +21,22 @@ public class LeaveApplicationForm {
     private Long leaveApplicationFormId;
     private Integer noOfDays;
     private String reason;
-    private String approvedStatus;
+    private String approvedStatus = "Pending";
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Date startDate;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Date endDate;
-    private String laveTypeName;
-    private String immediateSupervisorApproval;
+
+    @PrePersist
+    protected void onCreate() {
+        this.approvedStatus = "Pending";
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "employeeId")
+    private User employee;
+
+    @ManyToOne
+    @JoinColumn(name = "leaveId")
+    private Leave leave;
 }

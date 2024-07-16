@@ -5,13 +5,14 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class DepartmentDTO {
-    private Long departmentId;
-    private String departmentName;
-    private String departmentDesc;
-    private String departmentHeadName;
+public class PositionPieChartDTO {
+
+    private List<String> positionList;
+    private List<Integer> employeeCount;
 }
