@@ -75,6 +75,14 @@ public class LeaveApplicationService {
     }
 
     @Transactional
+    public List<LeaveApplicationReturnDTO> getAllPendingLeaveApplications() {
+        List<LeaveApplicationForm> leaveApplicationForms = leaveApplicationRepository.findAllByApprovedStatus("Pending");
+        return leaveApplicationForms.stream()
+                .map(this::mapToReturnDTO)
+                .collect(Collectors.toList());
+    }
+
+    @Transactional
     public List<LeaveApplicationReturnDTO> getApprovedLeaveApplicationFormsByEmployeeId(Long employeeId) {
         List<LeaveApplicationForm> leaveApplicationForms = leaveApplicationRepository.findByEmployee_EmployeeIdAndApprovedStatus(employeeId, "Approved");
         return leaveApplicationForms.stream()

@@ -12,5 +12,6 @@ public interface LeaveApplicationRepository extends JpaRepository<LeaveApplicati
 
     List<LeaveApplicationForm> findByEmployee_EmployeeIdAndApprovedStatus(Long employeeId, String approvedStatus);
     List<LeaveApplicationForm> findByEmployee_EmployeeId(Long employeeId);
+    List<LeaveApplicationForm> findAllByApprovedStatus(String approvedStatus);
 
 }
