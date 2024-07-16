@@ -221,7 +221,7 @@ public class DataInitializer {
 
                 userRepository.saveAll(Arrays.asList(user1, user2, user3, user4, user5));
 
-                it.setDepartmentHead(user1);
+                it.setDepartmentHead(user4);
                 hr.setDepartmentHead(user2);
                 finance.setDepartmentHead(user3);
 
