@@ -25,6 +25,13 @@ public class LeaveApplicationController {
         return ResponseEntity.ok(leaveApplicationForms);
     }
 
+    @GetMapping("/employee/leave-applications")
+    public ResponseEntity<List<LeaveApplicationReturnDTO>> getAllPendingLeaveApplications() {
+        List<LeaveApplicationReturnDTO> leaveApplicationForms = leaveApplicationService.getAllPendingLeaveApplications();
+        return ResponseEntity.ok(leaveApplicationForms);
+    }
+
+
     @PostMapping("/apply")
     public ResponseEntity<LeaveApplicationReturnDTO> applyForLeave(@RequestBody LeaveApplicationDTO leaveApplicationDTO) {
         LeaveApplicationReturnDTO leaveApplicationReturnDTO = leaveApplicationService.applyForLeave(leaveApplicationDTO);

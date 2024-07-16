@@ -14,8 +14,13 @@ public class DashboardController {
 
     private final DashboardService dashboardService;
 
-    @GetMapping("/employee-count")
+    @GetMapping("/department/employee-count")
     public PieChartDTO getEmployeeCountByDepartment() {
+        return dashboardService.getEmployeeCountByDepartment();
+    }
+
+    @GetMapping("/position/employee-count")
+    public PieChartDTO getEmployeeCountByPosition() {
         return dashboardService.getEmployeeCountByDepartment();
     }
 }
