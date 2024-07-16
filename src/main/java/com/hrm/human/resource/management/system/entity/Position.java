@@ -22,7 +22,7 @@ public class Position {
     private String positionName;
     private String positionDesc;
 
-    @OneToMany(mappedBy = "position", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "position", fetch = FetchType.LAZY)
     @JsonIgnore
     private List<User> users;
 }

@@ -22,7 +22,7 @@ public class Department {
     private String departmentName;
     private String departmentDesc;
 
-    @OneToMany(mappedBy = "department", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "department", fetch = FetchType.LAZY)
     @JsonIgnore
     private List<User> users;
 
