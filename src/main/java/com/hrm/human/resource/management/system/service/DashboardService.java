@@ -4,6 +4,7 @@ import com.hrm.human.resource.management.system.dto.PieChartDTO;
 import com.hrm.human.resource.management.system.dto.PositionPieChartDTO;
 import com.hrm.human.resource.management.system.entity.Department;
 import com.hrm.human.resource.management.system.entity.Position;
+import com.hrm.human.resource.management.system.entity.Role;
 import com.hrm.human.resource.management.system.repository.DepartmentRepository;
 import com.hrm.human.resource.management.system.repository.PositionRepository;
 import lombok.RequiredArgsConstructor;
@@ -28,7 +29,7 @@ public class DashboardService {
 
         List<Integer> employeeCount = departments.stream()
                 .map(department -> (int) department.getUsers().stream()
-                        .filter(user -> user.getRole().equals("EMPLOYEE"))
+                        .filter(user -> user.getRole() == Role.EMPLOYEE)
                         .count())
                 .collect(Collectors.toList());
 
@@ -46,8 +47,8 @@ public class DashboardService {
                 .collect(Collectors.toList());
 
         List<Integer> employeeCount = positions.stream()
-                .map(department -> (int) department.getUsers().stream()
-                        .filter(user -> user.getRole().equals("EMPLOYEE"))
+                .map(position -> (int) position.getUsers().stream()
+                        .filter(user -> user.getRole() == Role.EMPLOYEE)
                         .count())
                 .collect(Collectors.toList());
 
