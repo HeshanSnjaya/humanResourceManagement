@@ -4,7 +4,6 @@ import com.hrm.human.resource.management.system.dto.PieChartDTO;
 import com.hrm.human.resource.management.system.dto.PositionPieChartDTO;
 import com.hrm.human.resource.management.system.entity.Department;
 import com.hrm.human.resource.management.system.entity.Position;
-import com.hrm.human.resource.management.system.entity.Role;
 import com.hrm.human.resource.management.system.repository.DepartmentRepository;
 import com.hrm.human.resource.management.system.repository.PositionRepository;
 import lombok.RequiredArgsConstructor;
