@@ -17,9 +17,9 @@ import java.util.Optional;
 public class UserController {
     private final UserService userService;
 
-    @GetMapping("/{employeeId}")
-    public ResponseEntity<UserDTO> getUserDetailsById(@PathVariable Long employeeId) {
-        Optional<UserDTO> userDetailsOptional = userService.getUserDetailsByIdAndRole(employeeId, "EMPLOYEE");
+    @GetMapping("/{employeeId}/{role}")
+    public ResponseEntity<UserDTO> getUserDetailsById(@PathVariable Long employeeId,@PathVariable String role) {
+        Optional<UserDTO> userDetailsOptional = userService.getUserDetailsByIdAndRole(employeeId, role);
         if (userDetailsOptional.isPresent()) {
             return ResponseEntity.ok(userDetailsOptional.get());
         } else {
