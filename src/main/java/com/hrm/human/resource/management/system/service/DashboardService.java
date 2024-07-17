@@ -27,7 +27,9 @@ public class DashboardService {
                 .collect(Collectors.toList());
 
         List<Integer> employeeCount = departments.stream()
-                .map(department -> department.getUsers().size())
+                .map(department -> (int) department.getUsers().stream()
+                        .filter(user -> user.getRole().equals("EMPLOYEE"))
+                        .count())
                 .collect(Collectors.toList());
 
         return PieChartDTO.builder()
@@ -44,7 +46,9 @@ public class DashboardService {
                 .collect(Collectors.toList());
 
         List<Integer> employeeCount = positions.stream()
-                .map(department -> department.getUsers().size())
+                .map(department -> (int) department.getUsers().stream()
+                        .filter(user -> user.getRole().equals("EMPLOYEE"))
+                        .count())
                 .collect(Collectors.toList());
 
         return PositionPieChartDTO.builder()
