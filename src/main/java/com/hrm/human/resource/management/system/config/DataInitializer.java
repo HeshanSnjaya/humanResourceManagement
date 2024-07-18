@@ -227,14 +227,14 @@ public class DataInitializer {
 
                 departmentRepository.saveAll(Arrays.asList(it, hr, finance));
 
-                developer.setUsers(Arrays.asList(user1, user4));
+                developer.setUsers(Arrays.asList(user4));
                 manager.setUsers(Arrays.asList(user2, user5));
                 analyst.setUsers(Arrays.asList(user3));
                 tester.setUsers(Arrays.asList(user4));
 
                 positionRepository.saveAll(Arrays.asList(developer, manager, analyst, tester));
 
-                it.setUsers(Arrays.asList(user1, user4));
+                it.setUsers(Arrays.asList(user4));
                 hr.setUsers(Arrays.asList(user2, user5));
                 finance.setUsers(Arrays.asList(user3));
 
