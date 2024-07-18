@@ -1,6 +1,7 @@
 package com.hrm.human.resource.management.system.controller;
 
 import com.hrm.human.resource.management.system.dto.PieChartDTO;
+import com.hrm.human.resource.management.system.dto.PositionPieChartDTO;
 import com.hrm.human.resource.management.system.service.DashboardService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,7 +21,7 @@ public class DashboardController {
     }
 
     @GetMapping("/position/employee-count")
-    public PieChartDTO getEmployeeCountByPosition() {
-        return dashboardService.getEmployeeCountByDepartment();
+    public PositionPieChartDTO getEmployeeCountByPosition() {
+        return dashboardService.getEmployeeCountByPosition();
     }
 }

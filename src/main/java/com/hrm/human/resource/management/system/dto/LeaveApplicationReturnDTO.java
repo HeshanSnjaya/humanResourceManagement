@@ -14,6 +14,7 @@ import java.util.Date;
 @Builder
 public class LeaveApplicationReturnDTO {
     private Long employeeId;
+    private String employeeName;
     private Long leaveApplicationFormId;
     private String leaveTypeName;
     private Integer noOfDays;
