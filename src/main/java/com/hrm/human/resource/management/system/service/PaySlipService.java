@@ -73,9 +73,18 @@ public class PaySlipService {
 
     public void createBacklogPayslips(int year) {
         LocalDate now = LocalDate.now();
-        for (int month = 1; month <= now.getMonthValue(); month++) {
-            LocalDate date = LocalDate.of(year, month, 1);
-            generatePaySlipsForMonth(date);
+        List<User> employees = userRepository.findAll();
+
+        for (User employee : employees) {
+            LocalDate joinedDate = employee.getJoinedDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+            if (joinedDate.getYear() > year) {
+                continue;
+            }
+            int startMonth = joinedDate.getYear() == year ? joinedDate.getMonthValue() : 1;
+            for (int month = startMonth; month <= now.getMonthValue(); month++) {
+                LocalDate date = LocalDate.of(year, month, 1);
+                generatePaySlipsForMonth(date);
+            }
         }
     }
 
