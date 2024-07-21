@@ -38,7 +38,7 @@ public class User implements UserDetails {
     private String epfNo;
     private String address;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-    private Date dob;
+    private LocalDate dob;
     private String workEmail;
     private String password;
     private Integer age;
