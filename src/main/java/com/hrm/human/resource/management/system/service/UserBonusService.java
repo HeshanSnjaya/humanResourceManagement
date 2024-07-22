@@ -1,5 +1,6 @@
 package com.hrm.human.resource.management.system.service;
 
+import com.hrm.human.resource.management.system.dto.AllUserBonusAddDTO;
 import com.hrm.human.resource.management.system.dto.UserBonusAddRequestDTO;
 import com.hrm.human.resource.management.system.entity.Bonus;
 import com.hrm.human.resource.management.system.entity.ResponseMessage;
@@ -11,6 +12,8 @@ import com.hrm.human.resource.management.system.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -46,6 +49,37 @@ public class UserBonusService {
         } catch (Exception e) {
             return ResponseMessage.builder()
                     .message("Failed to add user bonus: " + e.getMessage())
+                    .build();
+        }
+    }
+
+    @Transactional
+    public ResponseMessage addUserBonusForAllEmployees(AllUserBonusAddDTO allUserBonusAddDTO) {
+        try {
+            Bonus bonus = bonusRepository.findById(allUserBonusAddDTO.getBonusId())
+                    .orElseThrow(() -> new RuntimeException("Bonus not found"));
+
+            if (allUserBonusAddDTO.getBonusAmount() > bonus.getBonusAmount()) {
+                throw new RuntimeException("Bonus amount exceeds allowed limit");
+            }
+
+            List<User> employees = userRepository.findAll();
+
+            for (User user : employees) {
+                UserBonus userBonus = UserBonus.builder()
+                        .bonus(bonus)
+                        .employee(user)
+                        .month(allUserBonusAddDTO.getMonth())
+                        .build();
+                userBonusRepository.save(userBonus);
+            }
+
+            return ResponseMessage.builder()
+                    .message("User bonuses added successfully for all employees")
+                    .build();
+        } catch (Exception e) {
+            return ResponseMessage.builder()
+                    .message("Failed to add user bonuses: " + e.getMessage())
                     .build();
         }
     }
