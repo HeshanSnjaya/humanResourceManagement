@@ -99,6 +99,21 @@ public class PaySlipService {
         return convertToDto(paySlip);
     }
 
+    public List<PaySlipDTO> getAllPayslipsForYearAndMonth(int year, String month) {
+        List<PaySlip> paySlips = paySlipRepository.findByYearAndMonth(year, month.toUpperCase());
+        return paySlips.stream()
+                .map(this::convertToDto)
+                .collect(Collectors.toList());
+    }
+
+
+//    public List<PaySlipDTO> getAllPayslipsForMonth(String month) {
+//        List<PaySlip> paySlips = paySlipRepository.findByMonth(month.toUpperCase());
+//        return paySlips.stream()
+//                .map(this::convertToDto)
+//                .collect(Collectors.toList());
+//    }
+
     private PaySlipDTO convertToDto(PaySlip paySlip) {
         return PaySlipDTO.builder()
                 .paySlipId(paySlip.getPaySlipId())

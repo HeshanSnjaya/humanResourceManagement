@@ -39,4 +39,16 @@ public class PaySlipController {
         PaySlipDTO paySlip = paySlipService.getPayslipById(paySlipId);
         return ResponseEntity.ok(paySlip);
     }
+
+//    @GetMapping("/month/{month}")
+//    public ResponseEntity<List<PaySlipDTO>> getAllPayslipsForMonth(@PathVariable String month) {
+//        List<PaySlipDTO> paySlips = paySlipService.getAllPayslipsForMonth(month);
+//        return ResponseEntity.ok(paySlips);
+//    }
+
+    @GetMapping("/year/{year}/month/{month}")
+    public ResponseEntity<List<PaySlipDTO>> getAllPayslipsForYearAndMonth(@PathVariable int year, @PathVariable String month) {
+        List<PaySlipDTO> paySlips = paySlipService.getAllPayslipsForYearAndMonth(year, month);
+        return ResponseEntity.ok(paySlips);
+    }
 }
