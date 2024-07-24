@@ -18,6 +18,7 @@ public class UserBonus {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userBonusId;
     private String month;
+    private Float amount;
 
     @ManyToOne
     @JoinColumn(name = "bonusId")

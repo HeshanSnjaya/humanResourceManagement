@@ -51,4 +51,10 @@ public class LeaveApplicationController {
         ResponseMessage responseMessage = leaveApplicationService.updateApprovalStatus(leaveApplicationFormId, newStatus);
         return ResponseEntity.ok(responseMessage);
     }
+
+    @GetMapping("/leave-applications-by-month")
+    public ResponseEntity<List<LeaveApplicationReturnDTO>> getLeaveApplicationsByMonth(@RequestParam String month) {
+        List<LeaveApplicationReturnDTO> leaveApplicationForms = leaveApplicationService.getLeaveApplicationsByMonth(month);
+        return ResponseEntity.ok(leaveApplicationForms);
+    }
 }

@@ -39,6 +39,7 @@ public class UserBonusService {
                     .bonus(bonus)
                     .employee(user)
                     .month(userBonusRequestDTO.getMonth())
+                    .amount(userBonusRequestDTO.getBonusAmount())
                     .build();
 
             userBonusRepository.save(userBonus);
@@ -70,6 +71,7 @@ public class UserBonusService {
                         .bonus(bonus)
                         .employee(user)
                         .month(allUserBonusAddDTO.getMonth())
+                        .amount(allUserBonusAddDTO.getBonusAmount())
                         .build();
                 userBonusRepository.save(userBonus);
             }
