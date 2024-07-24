@@ -67,15 +67,24 @@ public class PaySlipService {
     private float calculateTotalBonus(User employee, LocalDate payDate) {
         List<UserBonus> bonuses = userBonusRepository.findByEmployeeAndMonth(employee, payDate.getMonth().toString());
         return bonuses.stream()
-                .map(bonus -> bonus.getBonus().getBonusAmount())
+                .map(bonus -> bonus.getAmount())
                 .reduce(0.0f, Float::sum);
     }
 
     public void createBacklogPayslips(int year) {
         LocalDate now = LocalDate.now();
-        for (int month = 1; month <= now.getMonthValue(); month++) {
-            LocalDate date = LocalDate.of(year, month, 1);
-            generatePaySlipsForMonth(date);
+        List<User> employees = userRepository.findAll();
+
+        for (User employee : employees) {
+            LocalDate joinedDate = employee.getJoinedDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+            if (joinedDate.getYear() > year) {
+                continue;
+            }
+            int startMonth = joinedDate.getYear() == year ? joinedDate.getMonthValue() : 1;
+            for (int month = startMonth; month <= now.getMonthValue(); month++) {
+                LocalDate date = LocalDate.of(year, month, 1);
+                generatePaySlipsForMonth(date);
+            }
         }
     }
 
@@ -89,6 +98,21 @@ public class PaySlipService {
         PaySlip paySlip = paySlipRepository.findByPaySlipId(paySlipId);
         return convertToDto(paySlip);
     }
+
+    public List<PaySlipDTO> getAllPayslipsForYearAndMonth(int year, String month) {
+        List<PaySlip> paySlips = paySlipRepository.findByYearAndMonth(year, month.toUpperCase());
+        return paySlips.stream()
+                .map(this::convertToDto)
+                .collect(Collectors.toList());
+    }
+
+
+//    public List<PaySlipDTO> getAllPayslipsForMonth(String month) {
+//        List<PaySlip> paySlips = paySlipRepository.findByMonth(month.toUpperCase());
+//        return paySlips.stream()
+//                .map(this::convertToDto)
+//                .collect(Collectors.toList());
+//    }
 
     private PaySlipDTO convertToDto(PaySlip paySlip) {
         return PaySlipDTO.builder()

@@ -12,6 +12,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -118,6 +120,19 @@ public class LeaveApplicationService {
 
         userLeave.setNoOfLeaves(userLeave.getNoOfLeaves() + leaveApplicationForm.getNoOfDays());
         userLeaveRepository.save(userLeave);
+    }
+
+    @Transactional
+    public List<LeaveApplicationReturnDTO> getLeaveApplicationsByMonth(String month) {
+        LocalDate startDate = LocalDate.parse(month + "-01", DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        LocalDate endDate = startDate.withDayOfMonth(startDate.lengthOfMonth());
+
+        List<LeaveApplicationForm> leaveApplicationForms = leaveApplicationRepository
+                .findAllByEndDateBetween(startDate, endDate);
+
+        return leaveApplicationForms.stream()
+                .map(this::mapToReturnDTO)
+                .collect(Collectors.toList());
     }
 
     public LeaveApplicationReturnDTO mapToReturnDTO(LeaveApplicationForm leaveApplicationForm) {
