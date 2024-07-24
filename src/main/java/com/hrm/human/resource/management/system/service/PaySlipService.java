@@ -67,7 +67,7 @@ public class PaySlipService {
     private float calculateTotalBonus(User employee, LocalDate payDate) {
         List<UserBonus> bonuses = userBonusRepository.findByEmployeeAndMonth(employee, payDate.getMonth().toString());
         return bonuses.stream()
-                .map(bonus -> bonus.getBonus().getBonusAmount())
+                .map(bonus -> bonus.getAmount())
                 .reduce(0.0f, Float::sum);
     }
 
