@@ -62,8 +62,12 @@ public class DataInitializer {
                         .leaveTypeName("Casual")
                         .noOfLeaves(7)
                         .build();
+                Leave leave3 = Leave.builder()
+                        .leaveTypeName("Medical")
+                        .noOfLeaves(7)
+                        .build();
 
-                leaveRepository.saveAll(Arrays.asList(leave1, leave2));
+                leaveRepository.saveAll(Arrays.asList(leave1, leave2, leave3));
 
             }
 
